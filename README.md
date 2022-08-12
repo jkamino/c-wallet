@@ -1,7 +1,7 @@
 # C-Wallet
 
 - [Description](#description)
-- [C-ETH Networks](#C-ETH-Networks)
+- [C-ETH Network](#C-ETH-Network)
 - [Quickstart](#quick-start)
 - [Advanced Usage](#advanced-usage)
 
@@ -13,7 +13,7 @@ It works by creating a wallet address to an C-ETH network (or importing existing
 
 Because it's in early stages, If used in a production environment, it should be tested well in advance.　　
 
-## C-ETH Networks
+## C-ETH Network
 See [contenteth.net](https://contenteth.net/)
 
 ## Quick Start
@@ -36,7 +36,7 @@ Binary archives are published at https://github.com/content-ethereum/c-wallet/re
 
 You can customize the behavior of C-Wallet using `src\environments\environment.ts`.
 
-- `providerUrl` - A string specifying the URL on which the **websocket** provider listens.<br>
+- `providerUrl` - A string specifying the URL on which the websocket provider listens.<br>
   For example - `wss://example.c-eth-node.net/ws`
 - `ipfsUrl` - A string specifying the URL on which the ipfs-gateway server listens.<br>
   For example - `https://exmaple.ipfs-gw.net/ipfs/`
@@ -46,14 +46,13 @@ C-Wallet connects to a defined provider and execute RPC.
 If you specify a Mainnet provider, C-Wallet will connect to Mainnet; if you specify a Testnet provider, C-Wallet will connect to Testnet.
 
 #### How Does "ipfsUrl" Work?
-C-Wallet can display images, as defined in a Content-NFT specifications (`mediaId` of DigitalContentSpec).  
-C-Wallet will attempt to retrieve the image file against the IPFS gateway defined here.
+C-Wallet can display images, as defined in a Content-NFT specifications (`mediaId` of DigitalContentSpec). C-Wallet will attempt to retrieve the image file against the IPFS gateway defined here.
 
 ### Smart contracts supported by C-Wallet.
 C-Wallet supports the following committed or later versions of [Content-NFT](https://github.com/content-ethereum/Content-NFT/).<br>
 commit: [a287be6838eb1aa17ab77038842e6e463dc9577c](https://github.com/content-ethereum/Content-NFT/tree/a287be6838eb1aa17ab77038842e6e463dc9577c)
 
-### Specification of DigitalContentSpec supported by C-Wallet.
+### Specification of [DigitalContentSpec](https://github.com/content-ethereum/Content-NFT/#DigitalContentSpec) supported by C-Wallet.
 In order for Content-NFT information to be displayed on C-Wallet, `mediaId` and `info` must be set to the following settings.
 
 | Name                                                    | Description                                                                                                                                   |
