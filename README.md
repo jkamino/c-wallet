@@ -23,6 +23,9 @@ Binary archives are published at https://github.com/content-ethereum/c-wallet/re
 
 ### How to start C-Wallet in the local environment
 
+You'll need:  
+- Node v16.15.0 or higher.  
+
 1. `git clone https://github.com/content-ethereum/c-wallet.git`
 2. `cd c-wallet/`
 3. `npm install`
