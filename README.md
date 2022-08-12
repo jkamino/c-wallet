@@ -4,6 +4,7 @@
 - [C-ETH Network](#C-ETH-Network)
 - [Quickstart](#quick-start)
 - [Advanced Usage](#advanced-usage)
+- [License](#license)
 
 ## Description
 
@@ -62,3 +63,7 @@ In order for Content-NFT information to be displayed on C-Wallet, `mediaId` and 
 | :------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------- |
 | mediaId | A content identifier, also known as a CID, is a unique value used to identify files stored on the IPFS network.<br>For example - `'QmWgSQHsUjAmViSPFZcEAUBZsGvtU1mGdNgLF9QqpvkvNH'` |
 | info | Simple string or JSON string. (Does not support JSON in nested structures.).<br>For example - `'This is info'` `'{"key1":"value1","key2":"value2"}'`|
+
+## License
+
+C-Wallet is released under the MIT License.
