@@ -1,0 +1,94 @@
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Contract address</h1>
+    <div class="mail-address-container">
+      <img src="assets/image/mail.png" alt="" />
+      <p>{{ email }}</p>
+    </div>
+    <div class="last-row-group">
+      <div class="address-container">
+        <img src="assets/image/address.png" alt="" />
+        <p>{{ address }}</p>
+      </div>
+      <button class="copy-btn" (click)="copyWalletAddress()">
+        <mat-icon>file_copy</mat-icon>
+      </button>
+    </div>
+  </section>
+  <div class="logout-btn" (click)="logout()">
+    <span class="material-symbols-outlined"> logout </span>
+  </div>
+</div>
+<!-- main content -->
+<div class="page-container">
+  <section class="main-container">
+    <div class="input-wrapper">
+      <div class="radio-input-wrapper">
+        <!-- <mat-radio-group aria-label="Select an option" [(ngModel)]="inputType">
+          <mat-radio-button
+            value="select"
+            name="inputType"
+            (change)="switchInputType('select')"
+          >
+            Content NFT address
+          </mat-radio-button>
+        </mat-radio-group> -->
+        <p>Content NFT address</p>
+      </div>
+      <mat-form-field appearance="fill">
+        <mat-select [formControl]="selectedAddress">
+          <mat-option
+            *ngFor="let item of contractServiceList"
+            [value]="item.address"
+            (click)="selected(item.name)"
+          >
+            {{ item.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <section class="btn-container">
+        <button
+          type="button"
+          class="primary-btn"
+          (click)="send()"
+          [disabled]="!selectIsValid"
+        >
+          Next
+        </button>
+      </section>
+    </div>
+    <div class="input-wrapper">
+      <div class="radio-input-wrapper">
+        <!-- <mat-radio-group aria-label="Select an option" [(ngModel)]="inputType">
+          <mat-radio-button
+            value="manual"
+            name="inputType"
+            (change)="switchInputType('manual')"
+          >
+            Add a new Content NFT contract address
+          </mat-radio-button>
+        </mat-radio-group> -->
+        <p>Add a new Content NFT contract address</p>
+      </div>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Contract address</mat-label>
+        <input matInput [formControl]="inputAddress" />
+      </mat-form-field>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Contract Name</mat-label>
+        <input matInput [formControl]="inputName" />
+      </mat-form-field>
+      <section class="btn-container">
+        <button
+          type="button"
+          class="primary-btn"
+          (click)="addContract()"
+          [disabled]="!formIsValid"
+        >
+          Add
+        </button>
+      </section>
+    </div>
+  </section>
+</div>

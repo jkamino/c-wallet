@@ -1,0 +1,24 @@
+.page-container h2 {
+  margin: 10% 0 0;
+  text-align: center;
+}
+
+.card-wrapper {
+  width: 80%;
+  max-width: 420px;
+  margin: 40px auto;
+
+  .card-container {
+    height: auto;
+    min-height: 40%;
+    margin-bottom: 40px;
+    h3 {
+      text-align: center;
+    }
+  }
+}
+
+/* カード内のボタン */
+.btn-container {
+  padding: 0 20px;
+}

@@ -1,0 +1,108 @@
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+  <p style="color: white">Processing...</p>
+</ngx-spinner>
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Send NFT</h1>
+    <div class="mail-address-container">
+      <img src="assets/image/mail.png" alt="" />
+      <p>{{ email }}</p>
+    </div>
+    <div class="last-row-group">
+      <div class="address-container">
+        <img src="assets/image/address.png" alt="" />
+        <p>{{ walletAddress }}</p>
+      </div>
+      <button class="copy-btn" (click)="copyWalletAddress()">
+        <mat-icon>file_copy</mat-icon>
+      </button>
+    </div>
+  </section>
+  <div class="logout-btn" (click)="logout()">
+    <span class="material-symbols-outlined"> logout </span>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" (click)="back()">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+
+  <div class="main-container">
+    <section *ngIf="contentObject">
+      <h2>{{ serviceName }}</h2>
+      <div class="list-title">
+        {{ contentSpec.name }}
+      </div>
+      <dl>
+        <div class="listspace">
+          <dt>Spec ID</dt>
+          <dd>{{ contentObject.specId }}</dd>
+        </div>
+        <div class="listspace">
+          <dt>Object ID</dt>
+          <dd>{{ contentObject.objectId }}</dd>
+        </div>
+        <div class="listspace">
+          <dt>Object Index</dt>
+          <dd>{{ contentObject.objectIndex }}</dd>
+        </div>
+        <div class="listspace">
+          <dt>Owner</dt>
+          <dd>
+            {{ contentObject.owner }}
+          </dd>
+        </div>
+        <div class="listspace" *ngIf="imageSource">
+          <dt>Media ID</dt>
+          <dd>{{ mediaIdUrl }}</dd>
+        </div>
+      </dl>
+    </section>
+    <div class="img-container" *ngIf="imageSource">
+      <img src="{{ imageSource }}" (error)="onImgError()" />
+    </div>
+    <section class="form-wrapper">
+      <form [formGroup]="addressForm">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Destination address</mat-label>
+          <input
+            matInput
+            placeholder="address"
+            id="user-address"
+            type="text"
+            formControlName="address"
+          />
+        </mat-form-field>
+      </form>
+      <!-- <form [formGroup]="passwordForm">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Wallet password</mat-label>
+          <input
+            matInput
+            id="password"
+            type="password"
+            autocomplete="off"
+            formControlName="password"
+            placeholder="password"
+          />
+        </mat-form-field>
+      </form> -->
+    </section>
+  </div>
+  <section class="btn-container">
+    <button
+      class="primary-btn"
+      (click)="send()"
+      [disabled]="addressForm.invalid"
+    >
+      Transfer
+    </button>
+  </section>
+</div>

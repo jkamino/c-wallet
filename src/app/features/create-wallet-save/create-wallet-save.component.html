@@ -1,0 +1,42 @@
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <div class="header-text">
+      <h1>Create</h1>
+    </div>
+  </section>
+</div>
+<!-- main-content -->
+<div class="page-container">
+  <section class="main-container">
+    <h2>Please keep the following secret key in a safe place.</h2>
+    <p>
+      Reloading the page clears the secret key display. If you reload, please
+      re-register your account.
+    </p>
+    <div class="show-secret-key-container">
+      <div>
+        <p>
+          {{ show ? privateKey : arrayFromPrivateKeyLength(privateKey.length) }}
+        </p>
+      </div>
+      <div>
+        <a class="show-key-btn" *ngIf="!show" (click)="switchShow()">
+          <mat-icon>visibility</mat-icon>
+        </a>
+        <a class="show-key-btn" *ngIf="show" (click)="switchShow()">
+          <mat-icon>visibility_off</mat-icon>
+        </a>
+        <a class="copy-btn" *ngIf="show" (click)="copyPrivateKey()">
+          <mat-icon>file_copy</mat-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="btn-container">
+    <button class="primary-btn center" (click)="done()">
+      Yes, I copied the secret key.
+    </button>
+  </section>
+</div>

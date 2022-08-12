@@ -1,0 +1,11 @@
+<section class="column">
+  <div class="center message">
+    <p>{{ data.message }}</p>
+  </div>
+  <div class="between btn-box" [class.is-center]="!data.isConfirm">
+    <a *ngIf="data.isConfirm" class="gray-btn center" (click)="close()">
+      Cancel
+    </a>
+    <a class="primary-btn center" (click)="ok()">OK</a>
+  </div>
+</section>

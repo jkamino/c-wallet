@@ -1,0 +1,62 @@
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+  <p style="color: white">Processing...</p>
+</ngx-spinner>
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Content NFT</h1>
+    <div class="mail-address-container">
+      <img src="assets/image/mail.png" alt="" />
+      <p>{{ email }}</p>
+    </div>
+    <div class="last-row-group">
+      <div class="address-container">
+        <img src="assets/image/address.png" alt="" />
+        <p>{{ this.walletAddress }}</p>
+      </div>
+      <button class="copy-btn" (click)="copyWalletAddress()">
+        <mat-icon>file_copy</mat-icon>
+      </button>
+    </div>
+  </section>
+  <div class="logout-btn" (click)="logout()">
+    <span class="material-symbols-outlined"> logout </span>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" (click)="backTo()">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+
+  <section class="main-container" *ngIf="contentObjects$ | async as contents">
+    <div class="list-title">{{ serviceName }}</div>
+    <ul>
+      <ng-container *ngIf="contents && contents.length > 0; else noData">
+        <li
+          *ngFor="let content of contents"
+          (click)="goToDetail(content.objectId)"
+        >
+          {{ content.spec.name }}
+          <mat-icon class="right-arrow">navigate_next</mat-icon>
+        </li>
+      </ng-container>
+      <ng-template #noData>
+        <li>No content</li>
+      </ng-template>
+    </ul>
+  </section>
+  <section class="main-container" *ngIf="isError">
+    <div class="list-title">{{ serviceName }}</div>
+    <ul>
+      <ng-container>
+        <li>Error occurred</li>
+      </ng-container>
+    </ul>
+  </section>
+</div>

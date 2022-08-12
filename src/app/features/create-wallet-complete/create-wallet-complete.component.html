@@ -1,0 +1,53 @@
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <div class="header-text">
+      <h1>Confirmation</h1>
+    </div>
+  </section>
+</div>
+<!-- main-content -->
+<div class="page-container">
+  <section class="main-container">
+    <!-- address -->
+    <div class="show-address-container">
+      <div>
+        <p>{{ address }}</p>
+      </div>
+      <div>
+        <button
+          class="copy-btn"
+          ngxClipboard
+          [cbContent]="address"
+          (cbOnSuccess)="copied($event)"
+        >
+          <mat-icon>file_copy</mat-icon>
+        </button>
+      </div>
+    </div>
+    <!-- secret key -->
+    <div class="show-secret-key-container">
+      <div>
+        <p>
+          {{ show ? privateKey : arrayFromPrivateKeyLength(privateKey.length) }}
+        </p>
+      </div>
+      <div>
+        <a class="show-key-btn" *ngIf="!show" (click)="switchShow()">
+          <mat-icon>visibility</mat-icon>
+        </a>
+        <a class="show-key-btn" *ngIf="show" (click)="switchShow()">
+          <mat-icon>visibility_off</mat-icon>
+        </a>
+        <a class="copy-btn" *ngIf="show" (click)="copyPrivateKey()">
+          <mat-icon>file_copy</mat-icon>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- button -->
+  <section class="btn-container">
+    <button class="primary-btn center" (click)="confirmed()">Confirmed</button>
+  </section>
+</div>

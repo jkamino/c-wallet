@@ -1,0 +1,32 @@
+.text-right {
+  text-align: right;
+}
+
+/* moreボタン */
+.more {
+  padding-right: 5%;
+  font-weight: bold;
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  -webkit-justify-content: flex-end; /* Safari */
+  justify-content: flex-end;
+  -webkit-align-items: center; /* Safari */
+  align-items: center;
+}
+
+/* NFT画像 */
+.img-container {
+  margin: 0 auto 20px auto;
+  width: 80%;
+  text-align: center;
+  img {
+    height: 300px;
+    width: auto;
+  }
+}
+
+h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}

@@ -1,0 +1,171 @@
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+  <p style="color: white">Processing...</p>
+</ngx-spinner>
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Content NFT Detail</h1>
+    <div class="mail-address-container">
+      <img src="assets/image/mail.png" alt="" />
+      <p>{{ email }}</p>
+    </div>
+    <div class="last-row-group">
+      <div class="address-container">
+        <img src="assets/image/address.png" alt="" />
+        <p>{{ walletAddress }}</p>
+      </div>
+      <button class="copy-btn" (click)="copyWalletAddress()">
+        <mat-icon>file_copy</mat-icon>
+      </button>
+    </div>
+  </section>
+  <div class="logout-btn" (click)="logout()">
+    <span class="material-symbols-outlined"> logout </span>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" routerLink="/content-nft-list">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+
+  <div class="main-container" *ngIf="contentObject">
+    <h2>{{ serviceName }}</h2>
+    <div class="list-title">
+      {{ contentObject.spec.name }}
+    </div>
+    <dl>
+      <div class="listspace">
+        <dt>Object ID</dt>
+        <dd>{{ contentObject.objectId }}</dd>
+      </div>
+      <div class="listspace">
+        <dt>Object Index</dt>
+        <dd>{{ contentObject.objectIndex }}</dd>
+      </div>
+      <div class="listspace">
+        <dt>Owner</dt>
+        <dd>
+          {{ contentObject.owner }}
+        </dd>
+      </div>
+      <div class="listspace" *ngIf="imageSource">
+        <dt>Media ID</dt>
+        <dd>{{ mediaIdUrl }}</dd>
+      </div>
+      <ng-container *ngIf="showMore && specInfo">
+        <div class="listspace">
+          <dt>Spec ID</dt>
+          <dd>{{ contentObject.specId }}</dd>
+        </div>
+        <div class="listspace">
+          <dt>Symbol</dt>
+          <dd *ngIf="contentSpec?.symbol">{{ contentSpec?.symbol }}</dd>
+          <dd *ngIf="!contentSpec?.symbol">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>Content Type</dt>
+          <dd *ngIf="contentSpec?.contentType">
+            {{ contentSpec?.contentType }}
+          </dd>
+          <dd *ngIf="!contentSpec?.contentType">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>Total Supply Limit</dt>
+          <dd *ngIf="contentSpec?.totalSupplyLimit">
+            {{ contentSpec?.totalSupplyLimit }}
+          </dd>
+          <dd *ngIf="!contentSpec?.totalSupplyLimit">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>Original SpecIds</dt>
+          <dd *ngIf="contentSpec?.originalSpecIds?.length! > 0">
+            <ng-container *ngFor="let value of contentSpec?.originalSpecIds">
+              {{ value }}
+            </ng-container>
+          </dd>
+          <dd *ngIf="contentSpec?.originalSpecIds?.length! === 0">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>Contract Documents</dt>
+          <dd *ngIf="contentSpec?.contractDocuments?.length! > 0">
+            <ng-container *ngFor="let value of contentSpec?.contractDocuments">
+              {{ value }}
+            </ng-container>
+          </dd>
+          <dd *ngIf="contentSpec?.contractDocuments?.length! === 0">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>Copyright FeeRatio</dt>
+          <dd *ngIf="contentSpec?.copyrightFeeRatio?.length! > 0">
+            <ng-container *ngFor="let value of contentSpec?.copyrightFeeRatio">
+              {{ value }}
+            </ng-container>
+          </dd>
+          <dd *ngIf="contentSpec?.copyrightFeeRatio?.length! === 0">-</dd>
+        </div>
+        <div class="listspace">
+          <dt>AllowSecondary Merket</dt>
+          <dd *ngIf="contentSpec?.allowSecondaryMerket">
+            {{ contentSpec?.allowSecondaryMerket }}
+          </dd>
+          <dd *ngIf="!contentSpec?.allowSecondaryMerket">-</dd>
+        </div>
+        <ng-container *ngFor="let info of specInfo | keyvalue">
+          <div class="listspace">
+            <dt>{{ info.key }}</dt>
+            <ng-container
+              *ngIf="typeCheck(info.value) === 'object'; else string"
+            >
+              <dd>
+                <ng-container *ngFor="let value of info.value | keyvalue">
+                  {{ value.key }}:{{ value.value }}
+                </ng-container>
+              </dd>
+            </ng-container>
+            <ng-template #string>
+              <dd>
+                {{ info.value }}
+              </dd>
+            </ng-template>
+          </div>
+        </ng-container>
+      </ng-container>
+      <p class="text-right more" (click)="onClickMore()">
+        <mat-icon>
+          {{ showMore ? "arrow_circle_up" : "arrow_circle_down" }}
+        </mat-icon>
+        {{ showMore ? "close" : "Display Spec information" }}
+      </p>
+    </dl>
+  </div>
+  <div class="img-container" *ngIf="imageSource">
+    <img src="{{ imageSource }}" (error)="onImgError()" />
+  </div>
+  <section class="btn-container">
+    <button
+      class="primary-btn"
+      routerLink="/content-nft-send/{{ contentObject?.objectId }}"
+    >
+      Transfer
+    </button>
+  </section>
+  <!-- <section>　@dev 追加予定一時コメントアウト　
+    <p>Transaction History </p>
+    <dl>
+      <dt>Minted</dt>
+      <dd>*****</dd>
+      <dt>Transferred</dt>
+      <dd>*****</dd>
+      <dt>from</dt>
+      <dd>***************</dd>
+      <dt>to</dt>
+      <dd>***************</dd>
+    </dl>
+  </section> -->
+</div>

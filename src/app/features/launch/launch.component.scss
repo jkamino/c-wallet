@@ -1,0 +1,26 @@
+.page-container {
+  height: 100%;
+  padding: 0;
+  justify-content: center;
+  -webkit-justify-content: center; /* Safari */
+}
+
+h1 {
+  line-height: 3rem;
+}
+
+.content-wrapper {
+  height: 40%;
+  width: 100%;
+  display: flex;
+  display: -webkit-flex; /* Safari */
+  flex-direction: column;
+  justify-content: space-between;
+  -webkit-justify-content: space-between; /* Safari */
+  align-items: center;
+  -webkit-align-items: center; /* Safari */
+}
+
+.btn-container {
+  width: 80%;
+}

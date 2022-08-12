@@ -1,0 +1,15 @@
+.app-container {
+  height: 100%;
+  width: 100%;
+  max-width: 415px;
+  &.mobile {
+    max-width: 100%;
+  }
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  background-color: var(--main-white);
+}

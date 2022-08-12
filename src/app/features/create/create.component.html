@@ -1,0 +1,42 @@
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Create</h1>
+  </section>
+</div>
+<!-- main content -->
+<div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" routerLink="/select-wallet">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+  <div class="card-wrapper">
+    <div class="card-container">
+      <div>
+        <h3>Create new account</h3>
+        <p>A new account will be created.</p>
+      </div>
+      <section class="btn-container">
+        <button class="primary-btn center" routerLink="/create-wallet">
+          <span class="material-symbols-outlined"> add_circle_outline </span>
+          Create new account
+        </button>
+      </section>
+    </div>
+    <div class="card-container">
+      <div>
+        <h3>Import your account</h3>
+        <p>You need the private key <br />for your account.</p>
+      </div>
+      <section class="btn-container">
+        <button class="primary-btn center" routerLink="/create-by-secret-key">
+          <span class="material-symbols-outlined"> login </span>
+          Import your account
+        </button>
+      </section>
+    </div>
+  </div>
+</div>

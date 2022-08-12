@@ -1,0 +1,42 @@
+.main-container {
+  // .list-title {
+  //   display: inline-block;
+  //   background-color: var(--main-blue);
+  //   border-radius: 10px 10px 0 0;
+  //   margin: 0;
+  //   padding: 5px 20px;
+  //   text-align: center;
+  //   color: var(--main-white);
+  //   font-weight: bold;
+  // }
+  ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: 2px solid var(--main-blue);
+    border-radius: 0 5px 5px 5px;
+    box-sizing: border-box;
+  }
+  li {
+    position: relative;
+    padding: 30px 40px 30px 20px;
+    margin: 0;
+    font-size: var(--font-normal);
+    max-width: 100%;
+    word-wrap: break-word;
+
+    /* リストの最終行以外に下線を入れる */
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--main-gray);
+    }
+  }
+  .right-arrow {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+  }
+}

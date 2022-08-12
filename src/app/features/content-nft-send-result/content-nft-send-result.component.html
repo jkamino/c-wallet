@@ -1,0 +1,44 @@
+<!-- header -->
+<div class="header-wrapper">
+  <section class="header-container">
+    <h1>Send Result</h1>
+    <div class="mail-address-container">
+      <img src="assets/image/mail.png" alt="" />
+      <p>{{ email }}</p>
+    </div>
+    <div class="last-row-group">
+      <div class="address-container">
+        <img src="assets/image/address.png" alt="" />
+        <p>{{ walletAddress }}</p>
+      </div>
+      <button class="copy-btn" (click)="copyWalletAddress()">
+        <mat-icon>file_copy</mat-icon>
+      </button>
+    </div>
+  </section>
+  <div class="logout-btn" (click)="logout()">
+    <span class="material-symbols-outlined"> logout </span>
+  </div>
+</div>
+
+<!-- main content -->
+<div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" routerLink="/content-nft-list">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+
+  <div class="main-container">
+    <h2>Sent a transaction.</h2>
+    <p>Transaction Hash.</p>
+    <p>{{ transactionNo }}</p>
+  </div>
+  <section class="btn-container">
+    <button class="primary-btn" routerLink="/content-nft-list">
+      Back to Content NFT List
+    </button>
+  </section>
+</div>
