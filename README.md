@@ -1,33 +1,33 @@
 # C-Wallet
 
 - [Description](#description)
-- [C-ETH Network](#C-ETH-Network)
+- [Sanpo Blockchain](#sanpo-blockchain)
 - [Quickstart](#quick-start)
 - [Advanced Usage](#advanced-usage)
 - [License](#license)
 
 ## Description
 
-This repo contains an experimental C-Wallet, allowing to use NFT on a C-ETH network.
+This repo contains an experimental C-Wallet, allowing to use NFT on a Sanpo Blockchain.
 
-It works by creating a wallet address to an C-ETH network (or importing existing address), and then running C-ETH clients locally.
+It works by creating a wallet address to an sanpo network (or importing existing address), and then running Sanpo Blockchain clients locally.
 
 Because it's in early stages, If used in a production environment, it should be tested well in advance.　　
 
-## C-ETH Network
-See [contenteth.net](https://contenteth.net/)
+## Sanpo Blockchain
+See [sanpobc.io](https://sanpobc.io/)
 
 ## Quick Start
 
 ### Executables (Only Windows, Android)
-Binary archives are published at https://github.com/content-ethereum/c-wallet/releases.
+Binary archives are published at https://github.com/sanpo-blockchain/c-wallet/releases.
 
 ### How to start C-Wallet in the local environment
 
 You'll need:  
 - Node v16.15.0 or higher.  
 
-1. `git clone https://github.com/content-ethereum/c-wallet.git`
+1. `git clone https://github.com/sanpo-blockchain/c-wallet.git`
 2. `cd c-wallet/`
 3. `npm install`
 4. config your environment. (See [Environment Variables](#environment-variables).)
@@ -41,7 +41,7 @@ You'll need:
 You can customize the behavior of C-Wallet using `src\environments\environment.ts`.
 
 - `providerUrl` - A string specifying the URL on which the websocket provider listens.<br>
-  For example - `wss://example.c-eth-node.net/ws`
+  For example - `wss://example.sanpo-node.net/ws`
 - `ipfsUrl` - A string specifying the URL on which the ipfs-gateway server listens.<br>
   For example - `https://exmaple.ipfs-gw.net/ipfs/`
 
