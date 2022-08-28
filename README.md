@@ -53,10 +53,10 @@ If you specify a Mainnet provider, C-Wallet will connect to Mainnet; if you spec
 C-Wallet can display images, as defined in a Content-NFT specifications (`mediaId` of DigitalContentSpec). C-Wallet will attempt to retrieve the image file against the IPFS gateway defined here.
 
 ### Smart contracts supported by C-Wallet.
-C-Wallet supports the following committed or later versions of [Content-NFT](https://github.com/content-ethereum/Content-NFT/).<br>
-commit: [a287be6838eb1aa17ab77038842e6e463dc9577c](https://github.com/content-ethereum/Content-NFT/tree/a287be6838eb1aa17ab77038842e6e463dc9577c)
+C-Wallet supports the following committed or later versions of [Content-NFT](https://github.com/sanpo-blockchain/Content-NFT/).<br>
+commit: [a287be6838eb1aa17ab77038842e6e463dc9577c](https://github.com/sanpo-blockchain/Content-NFT/tree/a287be6838eb1aa17ab77038842e6e463dc9577c)
 
-### Specification of [DigitalContentSpec](https://github.com/content-ethereum/Content-NFT/#DigitalContentSpec) supported by C-Wallet.
+### Specification of [DigitalContentSpec](https://github.com/sanpo-blockchain/Content-NFT/#DigitalContentSpec) supported by C-Wallet.
 In order for Content-NFT information to be displayed on C-Wallet, `mediaId` and `info` must be set to the following settings.
 
 | Name                                                    | Description                                                                                                                                   |
