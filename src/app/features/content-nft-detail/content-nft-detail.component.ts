@@ -70,8 +70,12 @@ export class ContentNftDetailComponent implements OnInit {
             this.walletAddress
           );
           this.imageSource = imageSource;
-          //mediaIdUrlを固有のものに書き換え
-          this.mediaIdUrl = environment.ipfsUrl + this.contentSpec.mediaId;
+
+          if (this.contentSpec.mediaId.startsWith('https')) {
+            this.mediaIdUrl = this.contentSpec.mediaId;
+          } else {
+            this.mediaIdUrl = environment.ipfsUrl + this.contentSpec.mediaId;
+          }
         } catch {
           this.onImgError();
         }
