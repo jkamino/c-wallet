@@ -26,15 +26,14 @@ export class Erc20TransferComponent implements OnInit {
   walletAddress = '';
   email = '';
   erc20Balance$! : Observable<Erc20BalanceOf | undefined>
-  inputAddress = new FormControl(null); // 手動入力したアドレス
-  inputName = new FormControl(null); // 手動入力した名前
+  toAddress = new FormControl(null); // 手動入力したアドレス
+  amount = new FormControl(null); // 手動入力した名前
+  asset = new FormControl('MRA'); //現在はMRA固定
   isError = false;
 
   constructor(
     private router: Router,
-    private activeRoute: ActivatedRoute,
     private storageService: StorageService,
-    private confirmDialog: ConfirmDialogService,
     private erc20Service: Erc20Service,
     private transferService: TransferService,
     private appService: AppService,
@@ -76,57 +75,19 @@ export class Erc20TransferComponent implements OnInit {
     });
   }
 
-  // 購入画面へ遷移
-  async goMarket() {
-    const res = await this.confirmDialog.openConfirm('The external market will be opened in another tab. OK?');
-    if(res) {
-      window.open(environment.erc20TokenMarketUrl);
-    }
+  // 送信確認画面へ遷移
+  async next() {
+    // 値の受け渡し
+    this.transferService.toAddress = this.toAddress.value;
+    this.transferService.amount = this.amount.value;
+    this.transferService.balance = this.erc20Service.erc20.balance;
+    this.router.navigate(['/mirai-transfer-confirm']);
   }
     
-  // 送信画面へ遷移
-  goTransfer() {
-    this.router.navigate(['/mirai-transfer']);
-  }
-    
-  // テスト転送
-  async getMirai(value: string) {
-    console.log("transfer start");
-    this.spinner.show();
-
-    try{
-      const transactionHash = await this.transferService.erc20Transfer(
-        '0xCeeaa92c57A95E4bacCF2c6590f24E811AEE3f63',
-        '0x88815bbcdc903b499bd2ec51e2acf4d00dace7a7e31badcd80beb2900ceb78a8',
-        '0x598e289A63A1DC7aB1cfc3289eA8780ADa45e5F5',
-        '1000000000000000000'
-      );
-      if (transactionHash) {
-        // await this.storageService.setTransactionHash(transactionHash as string);
-        // this.router.navigate(['/content-nft-send-result']);
-        await this.erc20Service.fetch(this.walletAddress);
-        console.log("transfer completed.");
-      } else {
-        await this.confirmDialog.openComplete('error occurred');
-      }
-      this.spinner.hide();
-    }catch(e: any){
-      if(e.error.message === 'timeOut'){
-        await this.confirmDialog.openComplete('time out error occurred');
-      }else{
-        await this.confirmDialog.openComplete('error occurred');
-      }
-      this.spinner.hide();
-    }
-  }
   // Nextボタンのdisabled判定
   get formIsValid() {
-    const res = this.inputAddress.value && this.inputName.value ? true : false;
+    const res = this.toAddress.value && this.amount.value ? true : false;
     return res;
-  }
-
-  showTransfer() {
-
   }
 
 }

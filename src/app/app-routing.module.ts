@@ -16,6 +16,7 @@ import { CreateWalletSaveComponent } from './features/create-wallet-save/create-
 import { LoginByPasswordComponent } from './features/login-by-password/login-by-password.component';
 import { Erc20BalanceComponent } from './features/erc20-balance/erc20-balance.component';
 import { Erc20TransferComponent } from './features/erc20-transfer/erc20-transfer.component';
+import { Erc20TransferConfirmComponent } from './features/erc20-transfer-confirm/erc20-transfer-confirm.component';
 
 const routes: Routes = [
   {
@@ -98,6 +99,12 @@ const routes: Routes = [
     path: 'mirai-transfer',
     pathMatch: 'full',
     component: Erc20TransferComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mirai-transfer-confirm',
+    pathMatch: 'full',
+    component: Erc20TransferConfirmComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,6 +1,6 @@
 <ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
-    <p style="color: white">Processing...</p>
-  </ngx-spinner>
+  <p style="color: white">Processing...</p>
+</ngx-spinner>
   <!-- header -->
   <div class="header-wrapper">
     <section class="header-container">
@@ -28,19 +28,35 @@
 <div class="page-container">
   <section class="main-container">
     <div class="input-wrapper">
+      <mat-grid-list cols="4" rowHeight="30px">
+        <mat-grid-tile colspan="1">
+          <div class="text-left-inside-grid">Asset:</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+          <div class="text-left-inside-grid">MRA</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1">
+          <div class="text-left-inside-grid">Balance:</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+          <div class="text-left-inside-grid">{{(this.erc20Balance$ | async)?.balance}}</div>
+        </mat-grid-tile>
+      </mat-grid-list>
+      <label>To: </label>
         <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Contract address</mat-label>
-        <input matInput [formControl]="inputAddress" />
+        <mat-label>0x...</mat-label>
+        <input matInput [formControl]="toAddress" />
         </mat-form-field>
+        <label>Amount: </label>
         <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Contract Name</mat-label>
-        <input matInput [formControl]="inputName" />
+        <mat-label>Amount</mat-label>
+        <input matInput [formControl]="amount" />
         </mat-form-field>
         <section class="btn-container">
         <button
             type="button"
             class="primary-btn"
-            (click)="showTransfer()"
+            (click)="next()"
             [disabled]="!formIsValid"
         >
             Next

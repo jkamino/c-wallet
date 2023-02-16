@@ -259,6 +259,31 @@ button {
   cursor: pointer;
 }
 
+.white-btn {
+  font-size: var(--font-medium);
+  width: 100%;
+  border-radius: 25px;
+  background-color: var(--main-white);
+  color: var(--main-black);
+  border: initial;
+  cursor: pointer;
+  box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.16);
+
+  &:disabled {
+    background-color: var(--main-gray);
+  }
+}
+
+.rectangle-btn {
+  font-size: var(--font-medium);
+  width: 100%;
+  border-radius: 5px;
+  background-color: var(--main-white);
+  color: var(--main-gray);
+  border: initial;
+  cursor: pointer;
+  box-shadow: 3px 3px 5px 0 rgba(0, 0, 0, 0.16);
+}
 /* フォーム */
 form {
   display: flex;

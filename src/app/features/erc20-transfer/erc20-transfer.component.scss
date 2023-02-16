@@ -9,8 +9,20 @@
     //   color: var(--main-white);
     //   font-weight: bold;
     // }
-    .text-right {
-        text-align: right;
-      }
+    input:-moz-read-only { /* For Firefox */
+      color: darkgrey;
+   }
+   
+   input:read-only {
+      color: darkgrey;
+   }
+   .text-left-inside-grid {
+      position: absolute;
+      left: 5px;
+   }
+   .text-right-inside-grid {
+      position: absolute;
+      right: 5px;
+   }
 }
   

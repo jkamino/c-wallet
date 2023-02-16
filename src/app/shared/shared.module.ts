@@ -13,12 +13,16 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
 import { TransferDialogComponent } from './components/transfer-dialog/transfer-dialog.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
   declarations: [ConfirmDialogComponent, PasswordDialogComponent, TransferDialogComponent],
   imports: [
     CommonModule,
+    MatButtonModule,
     MatDialogModule,
+    MatGridListModule,
     MatInputModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
@@ -28,6 +32,8 @@ import { TransferDialogComponent } from './components/transfer-dialog/transfer-d
   exports: [
     ConfirmDialogComponent,
     PasswordDialogComponent,
+    MatButtonModule,
+    MatGridListModule,
     MatIconModule,
     MatRadioModule,
     MatInputModule,

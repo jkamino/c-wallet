@@ -5,7 +5,38 @@ import { Web3Service } from '../web3/web3.service';
   providedIn: 'root',
 })
 export class TransferService {
-  constructor(private web3Service: Web3Service) {}
+  private _toAddress: string;
+  private _amount: string;
+  private _balance: string;
+  constructor(private web3Service: Web3Service) {
+    this._toAddress = "";
+    this._amount = "";
+    this._balance = "";
+  }
+
+  get toAddress(): string {
+    return this._toAddress;
+  }
+
+  set toAddress(address: string) {
+    this._toAddress = address;
+  }
+
+  get amount(): string {
+    return this._amount;
+  }
+
+  set amount(amount: string) {
+    this._amount = amount;
+  }
+
+  get balance(): string {
+    return this._balance;
+  }
+
+  set balance(balance: string) {
+    this._balance = balance;
+  }
   /**
    *NFT転送
    * @param address ウォレットアドレス

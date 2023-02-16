@@ -1,1 +1,79 @@
-<p>mirai-transfer-confirm works!</p>
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+    <p style="color: white">Processing...</p>
+</ngx-spinner>
+    <!-- header -->
+    <div class="header-wrapper">
+      <section class="header-container">
+        <h1>Content NFT</h1>
+        <div class="mail-address-container">
+          <img src="assets/image/mail.png" alt="" />
+          <p>{{ email }}</p>
+        </div>
+        <div class="last-row-group">
+          <div class="address-container">
+            <img src="assets/image/address.png" alt="" />
+            <p>{{ this.walletAddress }}</p>
+          </div>
+          <button class="copy-btn" (click)="copyWalletAddress()">
+            <mat-icon>file_copy</mat-icon>
+          </button>
+        </div>
+      </section>
+      <div class="logout-btn" (click)="logout()">
+        <span class="material-symbols-outlined"> logout </span>
+      </div>
+    </div>
+    
+    <!-- main content -->
+  <div class="page-container">
+    <section class="main-container">
+        <mat-grid-list cols="10" rowHeight="3em">
+            <mat-grid-tile>
+                To: 
+            </mat-grid-tile>
+            <mat-grid-tile colspan="9">
+              <div class="text-left-inside-grid address-text"> {{this.toAddress}}</div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="10">
+              <button 
+                type="button"
+                class="rectangle-btn"
+                (click)="registerAddress()"
+              >New address detected<br/> Click here to add to address book.</button>
+          </mat-grid-tile>
+      </mat-grid-list>
+        <mat-grid-list cols="4" rowHeight="2em">
+          <mat-grid-tile>
+              Amount:
+          </mat-grid-tile>
+          <mat-grid-tile colspan="3">
+            <div class="text-left-inside-grid address-text"> {{this.amount}}</div>
+          </mat-grid-tile>
+          <mat-grid-tile>
+            Balance:
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3">
+          <div class="text-left-inside-grid address-text"> {{this.balance}}</div>
+        </mat-grid-tile>
+    </mat-grid-list>
+        <button
+              style="margin: 10px;"
+              type="button"
+              class="primary-btn"
+              (click)="transfer()"
+              [disabled]="!formIsValid"
+          >
+              Transfer
+          </button>
+          <button
+              style="margin: 10px;"
+              type="button"
+              class="white-btn"
+              (click)="back()"
+          >
+              Back
+          </button>
+          
+    </section>
+  </div>
+  
