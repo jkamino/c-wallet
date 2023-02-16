@@ -1,0 +1,51 @@
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+    <p style="color: white">Processing...</p>
+  </ngx-spinner>
+  <!-- header -->
+  <div class="header-wrapper">
+    <section class="header-container">
+      <h1>Content NFT</h1>
+      <div class="mail-address-container">
+        <img src="assets/image/mail.png" alt="" />
+        <p>{{ email }}</p>
+      </div>
+      <div class="last-row-group">
+        <div class="address-container">
+          <img src="assets/image/address.png" alt="" />
+          <p>{{ this.walletAddress }}</p>
+        </div>
+        <button class="copy-btn" (click)="copyWalletAddress()">
+          <mat-icon>file_copy</mat-icon>
+        </button>
+      </div>
+    </section>
+    <div class="logout-btn" (click)="logout()">
+      <span class="material-symbols-outlined"> logout </span>
+    </div>
+  </div>
+  
+  <!-- main content -->
+<div class="page-container">
+  <section class="main-container">
+    <div class="input-wrapper">
+        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Contract address</mat-label>
+        <input matInput [formControl]="inputAddress" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Contract Name</mat-label>
+        <input matInput [formControl]="inputName" />
+        </mat-form-field>
+        <section class="btn-container">
+        <button
+            type="button"
+            class="primary-btn"
+            (click)="showTransfer()"
+            [disabled]="!formIsValid"
+        >
+            Next
+        </button>
+        </section>
+    </div>
+    </section>
+</div>

@@ -6,9 +6,11 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { StorageService } from '../storage/storage.service';
 import { Web3Service } from '../web3/web3.service';
+import { environment } from 'src/environments/environment';
 //contract abi json files
 const ManualTokenManagerJson = require('../../config/abi/manual/TokenManager.json');
 const ManualDigitalContentObjectJson = require('../../config/abi/manual/DigitalContentObject.json');
+const ManulaErc20ObjectJson = require('../../config/abi/manual/Transburn.json');
 
 @Injectable({
   providedIn: 'root',
@@ -25,6 +27,7 @@ export class AppService {
       jsons: {
         token: ManualTokenManagerJson,
         content: ManualDigitalContentObjectJson,
+        erc20: ManulaErc20ObjectJson,
       },
     },
   ];
@@ -54,6 +57,10 @@ export class AppService {
         contract?.content.abi,
         manualAddress
       );
+      this.web3Service.setErc20Contract(
+        contract?.erc20.abi,
+        environment.erc20TokenContractAddress
+      );
       this.loaded();
     } else {
       this.loaded();
@@ -62,7 +69,7 @@ export class AppService {
 
   getContractJsonObject(
     _serviceName: string
-  ): { token: any; content: any } | undefined {
+  ): { token: any; content: any; erc20: any } | undefined {
     const result = this.contractMach.find(
       (object) => object.name === _serviceName
     )?.jsons;

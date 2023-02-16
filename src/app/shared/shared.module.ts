@@ -12,9 +12,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
+import { TransferDialogComponent } from './components/transfer-dialog/transfer-dialog.component';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, PasswordDialogComponent],
+  declarations: [ConfirmDialogComponent, PasswordDialogComponent, TransferDialogComponent],
   imports: [
     CommonModule,
     MatDialogModule,

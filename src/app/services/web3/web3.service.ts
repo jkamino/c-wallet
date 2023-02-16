@@ -5,6 +5,7 @@ import {
   ETHAccount,
   ObjectBalanceOf,
   OwnedObjectsOf,
+  Erc20BalanceOf
 } from 'src/app/models/models.types';
 import { environment } from 'src/environments/environment';
 import Web3 from 'web3';
@@ -45,6 +46,7 @@ export class Web3Service {
   provider: any;
   TokenManagerContract: any;
   DigitalContentContract: any;
+  Erc20Contract: any;
 
   /** init Web3 */
   init() {
@@ -71,6 +73,7 @@ export class Web3Service {
     if (!this.web3) {
       this.init();
     }
+    
     this.DigitalContentContract = null;
     this.TokenManagerContract = null;
     this.TokenManagerContract = new this.web3.eth.Contract(
@@ -81,6 +84,21 @@ export class Web3Service {
       digitalContentContractAbi,
       digitalContentContractAddress
     );
+  }
+
+  /**
+   * change ERC20 contract
+   * @param erc20ContractAbi contract abi
+   * @param erc20ContractAddress contract address
+   */
+  setErc20Contract(
+    erc20ContractAbi: any,
+    erc20ContractAddress: any
+  ) {
+    this.Erc20Contract = new this.web3.eth.Contract(
+      erc20ContractAbi,
+      erc20ContractAddress
+    )  
   }
   /**
    * マニュアル入力用
@@ -255,6 +273,57 @@ export class Web3Service {
     });
   }
 
+    /**
+   * balance of ERC20 token 
+   */
+    balanceOf(_owner: string): Promise<Erc20BalanceOf> {
+      if (!this.web3) {
+        this.init();
+      }
+      return new Promise((resolve, reject) => {
+        //time out error
+        setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+        this.Erc20Contract.methods
+          .balanceOf(_owner)
+          .call()
+          .then((result: any) => {
+            resolve({ balance: result });
+          })
+          .catch((e: any) => {
+            reject({ error: e });
+          });
+      });
+    }
+
+      /**
+   * object transfer
+   * @param _address
+   * @param _privateKey
+   * @param _to
+   * @param _value
+   * @returns
+   */
+  erc20TokenTransfer(
+    _address: any,
+    _privateKey: any,
+    _to: any,
+    _value: string
+  ) {
+    if (!this.web3) {
+      this.init();
+    }
+    const txData = this.Erc20Contract.methods
+      .transfer(_to, _value)
+      .encodeABI();
+    return this._sendSignedTransaction(
+      _address,
+      _privateKey,
+      txData,
+      environment.erc20TokenContractAddress
+    );
+  }
+
+
   //private function
   /**
    * transactions
@@ -293,7 +362,7 @@ export class Web3Service {
           }
         })
         .on('error', (e: any) => {
-          reject({ error: e });
+              reject({ error: e });
         });
     });
   }

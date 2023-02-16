@@ -22,6 +22,9 @@ import { LoginByPasswordComponent } from './features/login-by-password/login-by-
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { CreateWalletSaveComponent } from './features/create-wallet-save/create-wallet-save.component';
 import { ClipboardModule } from 'ngx-clipboard';
+import { Erc20BalanceComponent } from './features/erc20-balance/erc20-balance.component';
+import { Erc20TransferComponent } from './features/erc20-transfer/erc20-transfer.component';
+import { Erc20TransferConfirmComponent } from './features/erc20-transfer-confirm/erc20-transfer-confirm.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +41,9 @@ import { ClipboardModule } from 'ngx-clipboard';
     ContentNftSendComponent,
     ContentNftSendResultComponent,
     CreateWalletSaveComponent,
+    Erc20BalanceComponent,
+    Erc20TransferComponent,
+    Erc20TransferConfirmComponent,
   ],
   imports: [
     HttpClientModule,

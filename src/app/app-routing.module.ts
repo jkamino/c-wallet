@@ -14,6 +14,8 @@ import { ContentNftSendComponent } from './features/content-nft-send/content-nft
 import { AuthGuard } from './guard/auth.guard';
 import { CreateWalletSaveComponent } from './features/create-wallet-save/create-wallet-save.component';
 import { LoginByPasswordComponent } from './features/login-by-password/login-by-password.component';
+import { Erc20BalanceComponent } from './features/erc20-balance/erc20-balance.component';
+import { Erc20TransferComponent } from './features/erc20-transfer/erc20-transfer.component';
 
 const routes: Routes = [
   {
@@ -84,6 +86,18 @@ const routes: Routes = [
     path: 'content-nft-send-result',
     pathMatch: 'full',
     component: ContentNftSendResultComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mirai-balance',
+    pathMatch: 'full',
+    component: Erc20BalanceComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'mirai-transfer',
+    pathMatch: 'full',
+    component: Erc20TransferComponent,
     canActivate: [AuthGuard],
   },
   {

@@ -1,0 +1,54 @@
+<ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
+    <p style="color: white">Processing...</p>
+  </ngx-spinner>
+  <!-- header -->
+  <div class="header-wrapper">
+    <section class="header-container">
+      <h1>Content NFT</h1>
+      <div class="mail-address-container">
+        <img src="assets/image/mail.png" alt="" />
+        <p>{{ email }}</p>
+      </div>
+      <div class="last-row-group">
+        <div class="address-container">
+          <img src="assets/image/address.png" alt="" />
+          <p>{{ this.walletAddress }}</p>
+        </div>
+        <button class="copy-btn" (click)="copyWalletAddress()">
+          <mat-icon>file_copy</mat-icon>
+        </button>
+      </div>
+    </section>
+    <div class="logout-btn" (click)="logout()">
+      <span class="material-symbols-outlined"> logout </span>
+    </div>
+  </div>
+  
+  <!-- main content -->
+<div class="page-container">
+  <section class="main-container" *ngIf="erc20Balance$ | async as balanceOf">
+    <div>Balance:
+      {{balanceOf.balance}}
+    </div>
+    <button class="primary-btn" (click)="transfer('1000000000000000000')">
+      get 1 Mirai Token!!
+    </button>
+    <button mat-raised-button color="primary" aria-label="button for buy" (click)="goMarket()">
+      <mat-icon>attach_money</mat-icon>
+    </button>
+    buy
+    <button mat-icon-button color="primary" aria-label="button for buy" (click)="goTransfer()">
+      <mat-icon>forward</mat-icon>
+    </button>
+    transfer
+
+  </section>
+  <section class="main-container" *ngIf="isError">
+    <div class="list-title">{{ serviceName }}</div>
+    <ul>
+      <ng-container>
+        <li>Error occurred</li>
+      </ng-container>
+    </ul>
+  </section>
+</div>

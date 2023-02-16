@@ -61,6 +61,9 @@ export type ObjectBalanceOf = {
 export type OwnedObjectsOf = {
   _ownedObjects: number[];
 };
+export type Erc20BalanceOf = {
+  balance: string;
+};
 
 /**
  * contract
