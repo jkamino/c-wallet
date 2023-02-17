@@ -160,6 +160,17 @@ export class Erc20Service {
       throw e;
     }
   }
+  
+  convertToBaseUnit(value: string): string {
+    try {
+      console.log(value);
+      console.log(this.web3Service.web3.utils.fromWei(value, 'ether'));
+      return this.web3Service.web3.utils.fromWei(value, 'ether');
+    } catch(e) {
+      console.log(e);
+      return "";
+    }
+  }
   /**
    * コントラクト内の所有オブジェクトのobjectId一覧
    * @param _address

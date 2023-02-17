@@ -27,20 +27,33 @@
   <!-- main content -->
 <div class="page-container">
   <section class="main-container" *ngIf="erc20Balance$ | async as balanceOf">
-    <div>Balance:
-      {{balanceOf.balance}}
+    <div class="token-icon-container">
+      <img src="assets/image/mirai.png" alt=""/>
     </div>
-    <button class="primary-btn" (click)="transfer('1000000000000000000')">
-      get 1 Mirai Token!!
-    </button>
-    <button mat-raised-button color="primary" aria-label="button for buy" (click)="goMarket()">
-      <mat-icon>attach_money</mat-icon>
-    </button>
-    buy
-    <button mat-icon-button color="primary" aria-label="button for buy" (click)="goTransfer()">
-      <mat-icon>forward</mat-icon>
-    </button>
-    transfer
+    <div class="text-center">
+      <h2>
+        {{setDigit(balanceOf.balance)}} MRA
+      </h2>
+    </div>
+    <mat-grid-list cols="2" >
+      <mat-grid-tile>
+        <button mat-raised-button color="primary" aria-label="button for buy" (click)="goMarket()">
+          <mat-icon>arrow_downward</mat-icon>
+        </button>    
+        <p>Buy</p>
+      </mat-grid-tile>      
+      <mat-grid-tile>
+        <button mat-raised-button color="primary" aria-label="button for buy" (click)="goTransfer()">
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+        <p>Transfer</p>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <section>
+      <button class="primary-btn" style="margin-top: 50px;"  (click)="getMirai('1000000000000000000')">
+        [Test]Get 1 Mirai Token!!
+      </button>
+    </section>
 
   </section>
   <section class="main-container" *ngIf="isError">

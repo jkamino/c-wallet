@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Erc20BalanceOf } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { Erc20Service } from 'src/app/services/content/mirai.service';
+import { Erc20Service } from 'src/app/services/content/erc20.service';
 import { CryptService } from 'src/app/services/crypt/crypt.service';
 import { KeyService } from 'src/app/services/key/key.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
