@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { Account, Contract } from 'src/app/models/models.types';
+import { Account, AddressBook, Contract } from 'src/app/models/models.types';
 /**
  * ローカルストレージの管理サービス
  * set/getでローカルストレージの操作をまとめる
@@ -119,20 +119,34 @@ export class StorageService {
     await Storage.remove({ key: 'transactionHash' });
   }
 
-    /**transaction history list*/
-    async setTransactionHistoryList(_transactionHistoryList: string[]): Promise<void> {
-      const historyList = JSON.stringify(_transactionHistoryList);
-      await Storage.set({ key: 'transactionHistoryList', value: historyList });
-    }
-    async getTransactionHisoryList(): Promise<string[] | null> {
-        const item = await Storage.get({ key: 'transactionHistoryList' });
-        const historyList = item.value ? JSON.parse(item.value) : [];
-        return historyList;
-    }
-    async clearTransactionHiastoryList(): Promise<void> {
-      await Storage.remove({ key: 'transactionHistoryList' });
-    }
+  /**transaction history list*/
+  async setTransactionHistoryList(_transactionHistoryList: string[]): Promise<void> {
+    const historyList = JSON.stringify(_transactionHistoryList);
+    await Storage.set({ key: 'transactionHistoryList', value: historyList });
+  }
+  async getTransactionHisoryList(): Promise<string[] | null> {
+      const item = await Storage.get({ key: 'transactionHistoryList' });
+      const historyList = item.value ? JSON.parse(item.value) : [];
+      return historyList;
+  }
+  async clearTransactionHiastoryList(): Promise<void> {
+    await Storage.remove({ key: 'transactionHistoryList' });
+  }
   
+  /**address book */
+  async setAddressBook(_addressBook: AddressBook[]): Promise<void> {
+    const historyList = JSON.stringify(_addressBook);
+    await Storage.set({ key: 'addressBook', value: historyList });
+  }
+  async getAddressBook(): Promise<AddressBook[] | null> {
+      const item = await Storage.get({ key: 'addressBook' });
+      const addressbook = item.value ? JSON.parse(item.value) : [];
+      return addressbook;
+  }
+  async clearAddressBook(): Promise<void> {
+    await Storage.remove({ key: 'addressBook' });
+  }
+
   async clearStorage(): Promise<void> {
     await Storage.clear();
   }

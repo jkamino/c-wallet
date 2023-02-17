@@ -82,6 +82,13 @@ export type Account = {
   contractList: Contract[];
 };
 /**
+ * address book
+ */
+export type AddressBook = {
+  name: string;
+  address: string;
+};
+/**
  * clipboard
  */
 export interface IClipboardResponse {

@@ -12,13 +12,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDividerModule } from '@angular/material/divider';
-import { TransferDialogComponent } from './components/transfer-dialog/transfer-dialog.component';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatButtonModule} from '@angular/material/button';
-import {MatListModule} from '@angular/material/list';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { RegisterAddressDialogComponent } from './components/register-address-dialog/register-address-dialog.component';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, PasswordDialogComponent, TransferDialogComponent],
+  declarations: [ConfirmDialogComponent, PasswordDialogComponent, RegisterAddressDialogComponent],
   imports: [
     CommonModule,
     MatButtonModule,

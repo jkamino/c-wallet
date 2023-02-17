@@ -3,8 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable } from 'rxjs';
-import { Erc20BalanceOf } from 'src/app/models/models.types';
+import { AddressBook } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Erc20Service } from 'src/app/services/content/erc20.service';
@@ -14,6 +13,7 @@ import { StorageService } from 'src/app/services/storage/storage.service';
 import { TransferService } from 'src/app/services/transfer/transfer.service';
 import { ConfirmDialogService } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { PasswordDialogService } from 'src/app/shared/components/password-dialog/password-dialog.component';
+import { RegisterAddressDialogService } from 'src/app/shared/components/register-address-dialog/register-address-dialog.component';
 
 @Component({
   selector: 'app-mirai-transfer-confirm',
@@ -29,6 +29,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
   amount = '';
   balance = '';
   isError = false;
+  addressBook : AddressBook | undefined = undefined;
 
   constructor(
     private router: Router,
@@ -37,6 +38,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
     private transferService: TransferService,
     private confirmDialog: ConfirmDialogService,
     private passwordDialog: PasswordDialogService,
+    private registerAddressDialog: RegisterAddressDialogService,
     private appService: AppService,
     private authService: AuthService,
     private cryptService: CryptService,
@@ -55,11 +57,12 @@ export class Erc20TransferConfirmComponent implements OnInit {
     this.toAddress = this.transferService.toAddress;
     this.amount = this.transferService.amount;
     this.balance = this.transferService.balance;
+    this.addressBook = (await this.storageService.getAddressBook())?.find((addressBook) => addressBook.address === this.toAddress);
   }
 
   // アドレスを登録
   registerAddress() {
-    this.confirmDialog.openComplete("registerd!");
+    this.registerAddressDialog.open(this.toAddress);
   }
   async back() {
     this.router.navigate(['/mirai-transfer']);

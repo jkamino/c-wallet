@@ -1,0 +1,29 @@
+<section class="column">
+    <div class="column message">
+      <p style="display: block; width: 100%; text-align: left">
+        Register address
+      </p>
+      <p>
+        Address:{{data.address}}
+      </p>
+      <form [formGroup]="form">
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Name:</mat-label>
+          <input
+            matInput
+            id="name"
+            type="text"
+            autocomplete="off"
+            formControlName="name"
+            placeholder="Name of this address"
+          />
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="space btn-box">
+      <button class="primary-btn" (click)="done()" [disabled]="this.form.invalid">
+        Register
+      </button>
+    </div>
+  </section>
+  
