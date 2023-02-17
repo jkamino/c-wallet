@@ -9,6 +9,7 @@ import { CreateWalletComponent } from './features/create-wallet/create-wallet.co
 import { CreateComponent } from './features/create/create.component';
 import { CreateWalletCompleteComponent } from './features/create-wallet-complete/create-wallet-complete.component';
 import { SharedModule } from './shared/shared.module';
+import { ToBaseUnitPipe } from './shared/pipes/to-base-unit.pipe';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ContractSelectComponent } from './features/contract-select/contract-select.component';
@@ -44,6 +45,7 @@ import { Erc20TransferConfirmComponent } from './features/erc20-transfer-confirm
     Erc20BalanceComponent,
     Erc20TransferComponent,
     Erc20TransferConfirmComponent,
+    ToBaseUnitPipe
   ],
   imports: [
     HttpClientModule,

@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import {
-  ContentObject,
-  ContentObjectInfo,
-  ContentObjectProduct,
-  DigitalContentObject,
-  DigitalContentSpec,
-  Erc20BalanceOf,
-  Web3ContentSpec,
-} from 'src/app/models/models.types';
+import { Erc20BalanceOf } from 'src/app/models/models.types';
 import { Web3Service } from '../web3/web3.service';
 
 @Injectable({
@@ -65,120 +57,36 @@ export class Erc20Service {
   }
 
   /**
-   * アドレスとオブジェクトIDでcontentを取得
-   * @param _objectId objectId
-   * @param _address オーナーのaddress
-   * @returns
+   * 桁数変換処理
    */
-  async getContentObjectByAddress(
-    _objectId: number,
-    _address: string
-  ): Promise<ContentObject | null> {
-    try {
-      const content: DigitalContentObject =
-        await this.web3Service.getDigitalContentObject(_objectId);
-      //このシステムでは他のオーナーのオブジェクトを取得することはない
-      if (content.object.owner === _address) {
-        const contentSpec = await this.getContentSpecBySpecId(
-          content.object.specId
-        );
-        if (contentSpec) {
-          let objectInfo: any;
-          try {
-            objectInfo = JSON.parse(content.object.info);
-          } catch {
-            objectInfo = content.object.info;
-            return {
-              objectId: content.object.objectId,
-              objectIndex: content.object.objectIndex,
-              specId: content.object.specId,
-              owner: content.object.owner,
-              mediaId: content.object.mediaId,
-              info: objectInfo,
-              spec: contentSpec,
-            };
-          }
-          if (!objectInfo.product) {
-            const info = objectInfo as ContentObjectInfo;
-            return {
-              objectId: content.object.objectId,
-              objectIndex: content.object.objectIndex,
-              specId: content.object.specId,
-              owner: content.object.owner,
-              mediaId: content.object.mediaId,
-              info: info,
-              spec: contentSpec,
-            };
-          } else {
-            const info = objectInfo as ContentObjectProduct;
-            return {
-              objectId: content.object.objectId,
-              objectIndex: content.object.objectIndex,
-              specId: content.object.specId,
-              owner: content.object.owner,
-              mediaId: content.object.mediaId,
-              info: info.product,
-              spec: contentSpec,
-            };
-          }
-        } else {
-          return null;
-        }
-      } else {
-        return null;
-      }
-    } catch (error) {
-      throw error;
-    }
-  }
-  /**
-   * specIDからcontentSpecを入手
-   * @param _specId specID
-   * @returns
+  /** 
+   * 最小単位(ex. wei)から一般的単位(ex. ether)に変換する
    */
-  async getContentSpecBySpecId(
-    _specId: number
-  ): Promise<Web3ContentSpec | undefined> {
-    try {
-      const contentSpec: DigitalContentSpec =
-        await this.web3Service.getDigitalContentSpec(_specId);
-      return contentSpec.spec;
-    } catch (e) {
-      throw e;
+  toBaseUnit(value: string | undefined="", digits: number = 18): string {
+    // TODO: digitsに合わせて桁変換できるように拡張する
+    if (value === "") {
+      return "";
     }
-  }
-  /**
-   * コントラクト内のオブジェクトの所有数を取得
-   * @param _address オーナーのaddress
-   * @returns
-   */
-  async getObjectBalance(_address: string): Promise<number | undefined> {
-    try {
-      const balance = await this.web3Service.objectBalanceOf(_address);
-      return Number(balance._ownedObjectsCount);
-    } catch (e) {
-      throw e;
-    }
-  }
-  
-  convertToBaseUnit(value: string): string {
     try {
       return this.web3Service.web3.utils.fromWei(value, 'ether');
     } catch(e) {
       return "";
     }
   }
-  /**
-   * コントラクト内の所有オブジェクトのobjectId一覧
-   * @param _address
-   * @returns
+
+  /** 
+   * 一般的単位(ex. ether)から最小単位(ex. wei)に変換する
    */
-  async getOwnedObjects(_address: string): Promise<number[] | undefined> {
+  fromBaseUnit(value: string | undefined = "", digits: number=18) : string {
+    // TODO: digitsに合わせて桁変換できるように拡張する
+    if (value === "") {
+      return "";
+    }
     try {
-      const objectIds = await this.web3Service.ownedObjectsOf(_address);
-      return objectIds._ownedObjects;
-    } catch (e) {
-      throw e;
+      return this.web3Service.web3.utils.toWei(value, 'ether');
+    } catch(e) {
+      console.log(e);
+      return "";
     }
   }
 }

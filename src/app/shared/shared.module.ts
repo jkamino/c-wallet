@@ -16,9 +16,10 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RegisterAddressDialogComponent } from './components/register-address-dialog/register-address-dialog.component';
+import { SelectAddressDialogComponent } from './components/select-address-dialog/select-address-dialog.component';
 
 @NgModule({
-  declarations: [ConfirmDialogComponent, PasswordDialogComponent, RegisterAddressDialogComponent],
+  declarations: [ConfirmDialogComponent, PasswordDialogComponent, RegisterAddressDialogComponent, SelectAddressDialogComponent],
   imports: [
     CommonModule,
     MatButtonModule,

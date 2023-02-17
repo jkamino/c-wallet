@@ -47,6 +47,7 @@ export class Web3Service {
   TokenManagerContract: any;
   DigitalContentContract: any;
   Erc20Contract: any;
+  BN: any;
 
   /** init Web3 */
   init() {
@@ -55,6 +56,7 @@ export class Web3Service {
       providerOption
     );
     this.web3 = new Web3(this.provider);
+    this.BN = this.web3.utils.BN;
   }
 
   /**

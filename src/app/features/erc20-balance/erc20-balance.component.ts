@@ -85,10 +85,6 @@ export class Erc20BalanceComponent implements OnInit {
   goTransfer() {
     this.router.navigate(['/mirai-transfer']);
   }
-  // 桁数を揃える
-  setDigit(value: string) {
-    return this.erc20Service.convertToBaseUnit(value);
-  }
   // テスト転送
   async getMirai(value: string) {
     console.log("transfer start");

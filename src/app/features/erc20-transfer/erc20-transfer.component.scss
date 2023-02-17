@@ -32,5 +32,18 @@
       font-family: monospace;
       width: 100%;
    }
+   .mat-form-field {
+      width:90%;
+   }
+   .drop-down-button {
+      vertical-align: top;
+      padding: 0px;
+      min-width: 0px;
+   }
+   .drop-down-icon {
+      vertical-align: middle;
+      color: var(--main-blue);
+      font-size: 2em;
+   }
 }
   
