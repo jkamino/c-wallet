@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { TransferDialogComponent } from './components/transfer-dialog/transfer-dialog.component';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [ConfirmDialogComponent, PasswordDialogComponent, TransferDialogComponent],
@@ -24,6 +25,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatDialogModule,
     MatGridListModule,
     MatInputModule,
+    MatListModule,
     MatFormFieldModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -35,6 +37,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatButtonModule,
     MatGridListModule,
     MatIconModule,
+    MatListModule,
     MatRadioModule,
     MatInputModule,
     MatSelectModule,

@@ -119,6 +119,20 @@ export class StorageService {
     await Storage.remove({ key: 'transactionHash' });
   }
 
+    /**transaction history list*/
+    async setTransactionHistoryList(_transactionHistoryList: string[]): Promise<void> {
+      const historyList = JSON.stringify(_transactionHistoryList);
+      await Storage.set({ key: 'transactionHistoryList', value: historyList });
+    }
+    async getTransactionHisoryList(): Promise<string[] | null> {
+        const item = await Storage.get({ key: 'transactionHistoryList' });
+        const historyList = item.value ? JSON.parse(item.value) : [];
+        return historyList;
+    }
+    async clearTransactionHiastoryList(): Promise<void> {
+      await Storage.remove({ key: 'transactionHistoryList' });
+    }
+  
   async clearStorage(): Promise<void> {
     await Storage.clear();
   }

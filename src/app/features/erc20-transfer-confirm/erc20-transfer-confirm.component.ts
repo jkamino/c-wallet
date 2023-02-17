@@ -55,7 +55,6 @@ export class Erc20TransferConfirmComponent implements OnInit {
     this.toAddress = this.transferService.toAddress;
     this.amount = this.transferService.amount;
     this.balance = this.transferService.balance;
-    console.log(this.toAddress);
   }
 
   // アドレスを登録
@@ -91,6 +90,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
 
     try{
       this.spinner.show();
+      // 転送
       const transactionHash = await this.transferService.erc20Transfer(
         this.walletAddress,
         decryptedPrivateKey,
@@ -98,10 +98,13 @@ export class Erc20TransferConfirmComponent implements OnInit {
         this.amount
       );
       if (transactionHash) {
-        // トランザクション履歴をストレージに保存
-        // await this.storageService.setTransactionHash(transactionHash as string);
+        // 成功時
+        // トランザクション履歴を追加してストレージに保存
+        const historyList = await this.storageService.getTransactionHisoryList() || [];
+        historyList.push(transactionHash as string);
+        await this.storageService.setTransactionHistoryList(historyList);
+        // 送信後の残高を取得
         await this.erc20Service.fetch(this.walletAddress);
-        console.log("transfer completed.");
       } else {
         await this.confirmDialog.openComplete('error occurred');
       }
@@ -112,7 +115,6 @@ export class Erc20TransferConfirmComponent implements OnInit {
       if(e.error.message === 'timeOut'){
         await this.confirmDialog.openComplete('time out error occurred');
       }else{
-        console.log(e);
         await this.confirmDialog.openComplete('error occurred');
       }
     } finally {

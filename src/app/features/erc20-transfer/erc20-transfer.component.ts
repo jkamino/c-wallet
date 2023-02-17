@@ -28,8 +28,9 @@ export class Erc20TransferComponent implements OnInit {
   erc20Balance$! : Observable<Erc20BalanceOf | undefined>
   toAddress = new FormControl(null); // 手動入力したアドレス
   amount = new FormControl(null); // 手動入力した名前
-  asset = new FormControl('MRA'); //現在はMRA固定
   isError = false;
+  transactionHistoryList: string[] = [];
+  explorerBaseUrl = environment.erc20ExplorerUrl + '/tx';
 
   constructor(
     private router: Router,
@@ -51,6 +52,7 @@ export class Erc20TransferComponent implements OnInit {
     this.spinner.show();
     await this.erc20Service.fetch(this.walletAddress);
     this.erc20Balance$ = this.erc20Service.erc20$;
+    this.transactionHistoryList = await this.storageService.getTransactionHisoryList() || [];
     this.spinner.hide();
   }
 

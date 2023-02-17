@@ -24,5 +24,13 @@
       position: absolute;
       right: 5px;
    }
+   .history-container {
+      word-break: break-all;
+   }
+   .transaction-hash {
+      font-size: 0.7em;
+      font-family: monospace;
+      width: 100%;
+   }
 }
   

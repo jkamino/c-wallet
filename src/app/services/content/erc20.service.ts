@@ -163,11 +163,8 @@ export class Erc20Service {
   
   convertToBaseUnit(value: string): string {
     try {
-      console.log(value);
-      console.log(this.web3Service.web3.utils.fromWei(value, 'ether'));
       return this.web3Service.web3.utils.fromWei(value, 'ether');
     } catch(e) {
-      console.log(e);
       return "";
     }
   }

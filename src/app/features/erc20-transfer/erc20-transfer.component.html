@@ -24,8 +24,16 @@
     </div>
   </div>
   
-  <!-- main content -->
+<!-- main content -->
 <div class="page-container">
+  <!-- back button -->
+  <section class="back-button-container">
+    <div class="back-btn" routerLink="/mirai-balance">
+      <mat-icon>navigate_before</mat-icon>
+      <div>Back</div>
+    </div>
+  </section>
+
   <section class="main-container">
     <div class="input-wrapper">
       <mat-grid-list cols="4" rowHeight="30px">
@@ -43,16 +51,16 @@
         </mat-grid-tile>
       </mat-grid-list>
       <label>To: </label>
-        <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>0x...</mat-label>
-        <input matInput [formControl]="toAddress" />
-        </mat-form-field>
-        <label>Amount: </label>
-        <mat-form-field class="example-full-width" appearance="fill">
-        <mat-label>Amount</mat-label>
-        <input matInput [formControl]="amount" />
-        </mat-form-field>
-        <section class="btn-container">
+      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>0x...</mat-label>
+      <input matInput [formControl]="toAddress" />
+      </mat-form-field>
+      <label>Amount: </label>
+      <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Amount</mat-label>
+      <input matInput [formControl]="amount" />
+      </mat-form-field>
+      <section class="btn-container">
         <button
             type="button"
             class="primary-btn"
@@ -61,7 +69,15 @@
         >
             Next
         </button>
-        </section>
+      </section>
     </div>
-    </section>
+    <div class="history-container">
+      <h3>History:</h3>
+      <mat-list>
+        <ng-container *ngFor="let transactionHash of this.transactionHistoryList">
+          <mat-list-item><a href="{{this.explorerBaseUrl}}/{{transactionHash}}" target="_blank" rel="noopener noreferrer"><p class="transaction-hash">{{transactionHash}}</p></a></mat-list-item>
+        </ng-container>
+      </mat-list>
+    </div>
+  </section>
 </div>
