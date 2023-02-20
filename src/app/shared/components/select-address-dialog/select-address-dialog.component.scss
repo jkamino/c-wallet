@@ -1,0 +1,15 @@
+.address-book-container li:hover {
+  cursor: pointer;
+}
+
+.address-book-address {
+  width: 50%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.address-book-name {
+  width: 50%;
+  color: var(--main-blue);
+}

@@ -1,1 +1,8 @@
-<p>select-address-dialog works!</p>
+<section class="address-book-container">
+  <h4>Select transfer address</h4>
+  <ul>
+    <ng-container *ngFor="let addressBook of addressBookList">
+      <li (click)="done(addressBook.address)" class="under-line"><p class="address-book-name">{{addressBook.name}}: </p><p class="address-book-address">{{addressBook.address}}</p></li>
+    </ng-container>
+  </ul>
+</section>

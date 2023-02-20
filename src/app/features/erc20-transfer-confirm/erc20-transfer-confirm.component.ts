@@ -115,7 +115,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
       this.router.navigate(['/mirai-balance']);
 
     }catch(e: any){
-      if(e.error.message === 'timeOut'){
+      if(e.error?.message === 'timeOut'){
         await this.confirmDialog.openComplete('time out error occurred');
       }else{
         await this.confirmDialog.openComplete('error occurred');

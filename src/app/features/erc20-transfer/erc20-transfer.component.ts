@@ -82,6 +82,7 @@ export class Erc20TransferComponent implements OnInit {
   // アドレス選択ダイアログ表示
   async openAddressBook() {
     this.toAddress.setValue(await this.selectAddressDialog.open());
+    
   }
   // 送信確認画面へ遷移
   async next() {

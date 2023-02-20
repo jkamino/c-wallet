@@ -2,6 +2,7 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
+import { AddressBook } from 'src/app/models/models.types';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class SelectAddressDialogComponent implements OnInit {
   form: FormGroup = this.fb.group({
     name: [null, [Validators.required]],
   });
+  addressBookList: AddressBook[] = [];
   constructor(
     private dialogRef: MatDialogRef<
     SelectAddressDialogComponent,
@@ -22,11 +24,16 @@ export class SelectAddressDialogComponent implements OnInit {
     private storageService: StorageService,
   ) {}
 
-  ngOnInit(): void {
-    
+  async ngOnInit(): Promise<void> {
+    this.addressBookList = (await this.storageService.getAddressBook() || []).sort((a, b) => a.name.localeCompare(b.name));
   }
   async select(): Promise<void> {
     this.dialogRef.close();
+  }
+
+  async done(response: string) : Promise<void> {
+    console.log(response);
+    this.dialogRef.close(response);
   }
 }
 @Injectable({
