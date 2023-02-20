@@ -34,4 +34,9 @@ section {
     /* Safari */
     align-items: center;
   }
+
+  input.read-only {
+    font-family: monospace;
+    font-size: var(--font-small);
+  }
   

@@ -13,7 +13,9 @@ import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.component
 export class RegisterAddressDialogComponent {
   form: FormGroup = this.fb.group({
     name: [null, [Validators.required]],
+    address: [null, [Validators.required]],
   });
+  address: string = "";
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: {address: any},
     private dialogRef: MatDialogRef<
@@ -23,7 +25,10 @@ export class RegisterAddressDialogComponent {
     private fb: FormBuilder,
     private storageService: StorageService,
     private confirmDialogService: ConfirmDialogService
-  ) {}
+  ) {
+    this.form.setValue({name : "", address : data.address});
+    this.form.controls['address'].disable();
+  }
 
   async done(): Promise<void> {
     const name = this.form.getRawValue().name;
@@ -33,7 +38,7 @@ export class RegisterAddressDialogComponent {
       this.confirmDialogService.openComplete("This Address is already registerd.");
     } else {
       addressBook.push({name: name, address: this.data.address});
-      this.storageService.setAddressBook(addressBook);
+      await this.storageService.setAddressBook(addressBook);
     }
     this.dialogRef.close();
   }

@@ -85,7 +85,6 @@ export class Erc20Service {
     try {
       return this.web3Service.web3.utils.toWei(value, 'ether');
     } catch(e) {
-      console.log(e);
       return "";
     }
   }

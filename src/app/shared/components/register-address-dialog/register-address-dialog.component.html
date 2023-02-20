@@ -3,12 +3,25 @@
       <p style="display: block; width: 100%; text-align: left">
         Register address
       </p>
-      <p>
+      <!-- <p>
         Address:{{data.address}}
-      </p>
+      </p> -->
       <form [formGroup]="form">
-        <mat-form-field class="example-full-width" appearance="fill">
-          <mat-label>Name:</mat-label>
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Address:</mat-label>
+          <input
+            matInput
+            id="address"
+            type="text"
+            autocomplete="off"
+            formControlName="address"
+            value="{{address}}"
+            [readonly]="true"
+            class="read-only"
+          />
+        </mat-form-field>
+        <mat-form-field class="readonly" appearance="fill">
+          <mat-label>Nickname:</mat-label>
           <input
             matInput
             id="name"

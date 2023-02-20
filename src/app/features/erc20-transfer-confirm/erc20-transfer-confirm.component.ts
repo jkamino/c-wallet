@@ -61,8 +61,9 @@ export class Erc20TransferConfirmComponent implements OnInit {
   }
 
   // アドレスを登録
-  registerAddress() {
-    this.registerAddressDialog.open(this.toAddress);
+  async registerAddress() {
+    await this.registerAddressDialog.open(this.toAddress);
+    this.addressBook = (await this.storageService.getAddressBook())?.find((addressBook) => addressBook.address === this.toAddress);
   }
   async back() {
     this.router.navigate(['/mirai-transfer']);
