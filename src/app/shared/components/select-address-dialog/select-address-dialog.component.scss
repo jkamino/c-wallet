@@ -3,13 +3,17 @@
 }
 
 .address-book-address {
-  width: 50%;
+  display: inline-block;
+  width: 40%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .address-book-name {
+  display: inline-block;
   width: 50%;
   color: var(--main-blue);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

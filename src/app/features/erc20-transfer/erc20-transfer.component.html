@@ -53,12 +53,11 @@
       <div>
         <mat-form-field appearance="fill">
           <mat-label>To:</mat-label>
-          <input matInput [formControl]="toAddress" />
+          <input matInput [formControl]="toAddress" class="address-input" />
           </mat-form-field>
           <button mat-flat-button (click)="openAddressBook()" class="drop-down-button">
             <mat-icon class="drop-down-icon">arrow_drop_down_circle</mat-icon>
           </button>
-          
       </div>
       <mat-form-field appearance="fill">
       <mat-label>Amount:</mat-label>

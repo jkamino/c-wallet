@@ -1,14 +1,4 @@
 .main-container {
-    // .list-title {
-    //   display: inline-block;
-    //   background-color: var(--main-blue);
-    //   border-radius: 10px 10px 0 0;
-    //   margin: 0;
-    //   padding: 5px 20px;
-    //   text-align: center;
-    //   color: var(--main-white);
-    //   font-weight: bold;
-    // }
     input:-moz-read-only { /* For Firefox */
       color: darkgrey;
    }
@@ -44,6 +34,10 @@
       vertical-align: middle;
       color: var(--main-blue);
       font-size: 2em;
+   }
+
+   .address-input {
+      font-size: var(--font-small);
    }
 }
   
