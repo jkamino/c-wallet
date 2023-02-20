@@ -30,10 +30,8 @@
       <div class="token-icon-container">
         <img src="assets/image/mirai-icon.png" alt="mirai icon"/>
       </div>
-      <div class="text-center">
-        <h2>
-          {{balanceOf.balance | toBaseUnit}} MRA
-        </h2>
+      <div class="text-balance">
+          <span>{{balanceOf.balance | toBaseUnit}} </span><span> MRA</span>
       </div>
       <mat-grid-list cols="2" >
         <mat-grid-tile>
@@ -65,13 +63,3 @@
       </ul>
     </section>
   </div>
-  <!-- footer -->
-  <div class="footer-wrapper">
-    <section class="footer-container">
-      <div>
-        <div><img src="assets/image/sanpo-icon.png" (click)="goNft()"></div>
-        <div><img src="assets/image/mirai-icon.png" (click)="goMirai()"></div>
-      </div>
-    </section>
-  </div>
-  

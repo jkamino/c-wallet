@@ -26,6 +26,7 @@ import { ClipboardModule } from 'ngx-clipboard';
 import { Erc20BalanceComponent } from './features/erc20-balance/erc20-balance.component';
 import { Erc20TransferComponent } from './features/erc20-transfer/erc20-transfer.component';
 import { Erc20TransferConfirmComponent } from './features/erc20-transfer-confirm/erc20-transfer-confirm.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,6 +46,7 @@ import { Erc20TransferConfirmComponent } from './features/erc20-transfer-confirm
     Erc20BalanceComponent,
     Erc20TransferComponent,
     Erc20TransferConfirmComponent,
+    FooterComponent,
     ToBaseUnitPipe
   ],
   imports: [

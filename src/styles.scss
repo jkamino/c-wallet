@@ -30,7 +30,7 @@ label {
   margin: 0 auto;
   max-width: 415px;
   min-width: 320px;
-  height: calc(100% - 160px);
+  height: calc(100% - 140px);
   padding: 0 3%;
   box-sizing: border-box;
   display: flex;
@@ -174,54 +174,6 @@ h1 {
   }
 }
 
-/* フッター */
-.footer-wrapper {
-  width: 100%;
-  height: 80px;
-
-  .footer-container {
-    width: 100%;
-    height: 60px;
-    position: sticky;
-    bottom: 0;
-    padding: 0 3%;
-    box-sizing: border-box;
-    background-color: var(--main-blue);
-    color: var(--main-black);
-    display: flex;
-    display: -webkit-flex; /* Safari */
-    align-items: center;
-    -webkit-align-items: center; /* Safari */
-
-    > div {
-      width: 100%;
-      display: flex;
-      justify-content: space-evenly;
-      > div {
-        width: 40px;
-        height: 40px;
-        > img {
-          width: 100%;
-          height: 100%;
-          object-fit:cover;
-        }    
-      }
-    }
-  }
-
-  /* logout button */
-  .logout-btn {
-    position: absolute;
-    top: 8%;
-    right: 3%;
-    color: var(--main-white);
-    .material-symbols-outlined {
-      padding-top: 2px;
-      margin-right: -2px;
-      font-size: 18px;
-    }
-  }
-}
 /* もどるボタン(ヘッダー下) */
 .back-button-container {
   width: 100%;

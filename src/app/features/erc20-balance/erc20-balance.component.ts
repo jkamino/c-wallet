@@ -86,13 +86,5 @@ export class Erc20BalanceComponent implements OnInit {
     this.router.navigate(['/mirai-transfer']);
   }
 
-  // NFT画面に遷移
-  goNft() {
-    this.router.navigate(['/content-nft-list']);
-  }
-  // Mirai画面に遷移
-  goMirai() {
-    this.router.navigate(['/mirai-balance']);
-  }
 
 }
