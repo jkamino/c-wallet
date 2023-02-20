@@ -80,39 +80,19 @@ export class Erc20BalanceComponent implements OnInit {
       window.open(environment.erc20TokenMarketUrl);
     }
   }
-    
+
   // 送信画面へ遷移
   goTransfer() {
     this.router.navigate(['/mirai-transfer']);
   }
-  // テスト転送
-  async getMirai(value: string) {
-    this.spinner.show();
 
-    try{
-      const transactionHash = await this.transferService.erc20Transfer(
-        '0xCeeaa92c57A95E4bacCF2c6590f24E811AEE3f63',
-        '0x88815bbcdc903b499bd2ec51e2acf4d00dace7a7e31badcd80beb2900ceb78a8',
-        '0x598e289A63A1DC7aB1cfc3289eA8780ADa45e5F5',
-        '1000000000000000000'
-      );
-      if (transactionHash) {
-        // await this.storageService.setTransactionHash(transactionHash as string);
-        // this.router.navigate(['/content-nft-send-result']);
-        await this.erc20Service.fetch(this.walletAddress);
-      } else {
-        await this.confirmDialog.openComplete('error occurred');
-      }
-      this.spinner.hide();
-    }catch(e: any){
-      if(e.error.message === 'timeOut'){
-        await this.confirmDialog.openComplete('time out error occurred');
-      }else{
-        await this.confirmDialog.openComplete('error occurred');
-      }
-      this.spinner.hide();
-    }
-
+  // NFT画面に遷移
+  goNft() {
+    this.router.navigate(['/content-nft-list']);
+  }
+  // Mirai画面に遷移
+  goMirai() {
+    this.router.navigate(['/mirai-balance']);
   }
 
 }
