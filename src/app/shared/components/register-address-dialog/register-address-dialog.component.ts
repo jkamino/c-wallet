@@ -33,7 +33,6 @@ export class RegisterAddressDialogComponent {
       this.confirmDialogService.openComplete("This Address is already registerd.");
     } else {
       addressBook.push({name: name, address: this.data.address});
-      console.log(addressBook);
       this.storageService.setAddressBook(addressBook);
     }
     this.dialogRef.close();

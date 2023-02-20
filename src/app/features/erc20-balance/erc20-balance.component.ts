@@ -87,7 +87,6 @@ export class Erc20BalanceComponent implements OnInit {
   }
   // テスト転送
   async getMirai(value: string) {
-    console.log("transfer start");
     this.spinner.show();
 
     try{
@@ -101,7 +100,6 @@ export class Erc20BalanceComponent implements OnInit {
         // await this.storageService.setTransactionHash(transactionHash as string);
         // this.router.navigate(['/content-nft-send-result']);
         await this.erc20Service.fetch(this.walletAddress);
-        console.log("transfer completed.");
       } else {
         await this.confirmDialog.openComplete('error occurred');
       }

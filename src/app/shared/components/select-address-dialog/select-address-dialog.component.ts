@@ -32,7 +32,6 @@ export class SelectAddressDialogComponent implements OnInit {
   }
 
   async done(response: string) : Promise<void> {
-    console.log(response);
     this.dialogRef.close(response);
   }
 }
