@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ConfirmDialogService } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { FooterService } from 'src/app/shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login-by-password',
@@ -19,8 +20,11 @@ export class LoginByPasswordComponent {
     private fb: FormBuilder,
     private router: Router,
     private confirmDialog: ConfirmDialogService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private footerService: FooterService
+  ) {
+    this.footerService.hide();
+  }
 
   async login(): Promise<void> {
     const _password = this.form.getRawValue().password;

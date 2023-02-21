@@ -26,9 +26,7 @@ export class SelectAddressDialogComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     const walletAddress = await this.storageService.getWalletAddress() ?? '';
-    const wholeAddressBookList = await this.storageService.getAddressBookList(walletAddress);
-
-    this.addressBookList = wholeAddressBookList
+    this.addressBookList = (await this.storageService.getAddressBookList(walletAddress))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
   async select(): Promise<void> {

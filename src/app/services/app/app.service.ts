@@ -46,6 +46,13 @@ export class AppService {
   }
   //既にサービスを選択していた場合
   async init() {
+    // ERC20トークンコントラクトは固定
+    const manualContract = this.getContractJsonObject('manual');
+    this.web3Service.setErc20Contract(
+      manualContract?.erc20.abi,
+      environment.erc20TokenContractAddress
+    );
+
     const existingContract = await this.storageService.getContractService();
     if (existingContract) {
       this.contractServiceName = existingContract;
@@ -56,10 +63,6 @@ export class AppService {
         contract?.token.address,
         contract?.content.abi,
         manualAddress
-      );
-      this.web3Service.setErc20Contract(
-        contract?.erc20.abi,
-        environment.erc20TokenContractAddress
       );
       this.loaded();
     } else {

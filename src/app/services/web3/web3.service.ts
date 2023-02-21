@@ -97,6 +97,9 @@ export class Web3Service {
     erc20ContractAbi: any,
     erc20ContractAddress: any
   ) {
+    if(!this.web3) {
+      this.init();
+    }
     this.Erc20Contract = new this.web3.eth.Contract(
       erc20ContractAbi,
       erc20ContractAddress

@@ -11,6 +11,7 @@ import { KeyService } from 'src/app/services/key/key.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Contract } from 'src/app/models/models.types';
+import { FooterService } from 'src/app/shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-contract-select',
@@ -36,12 +37,14 @@ export class ContractSelectComponent implements OnInit {
     private authService: AuthService,
     private confirmDialog: ConfirmDialogService,
     private _clipboardService: ClipboardService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private footerService: FooterService
   ) {}
   async ngOnInit(): Promise<void> {
     this.address = (await this.storageService.getWalletAddress()) ?? '';
     this.email = await this.keyService.getDecryptEmailAddress();
     await this.contractSelected();
+    this.footerService.show();
   }
 
   async contractSelected(): Promise<void> {
