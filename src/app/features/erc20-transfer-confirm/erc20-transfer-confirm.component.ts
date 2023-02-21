@@ -108,7 +108,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
         // 送信履歴をストレージに追加
         await this.storageService.addTransferHistory({
           owner: this.walletAddress,
-          dateTime: new Date(),
+          dateTime: (new Date()).getTime(),
           to: this.toAddress,
           value: this.amount,
           transactionHash: transactionHash as string

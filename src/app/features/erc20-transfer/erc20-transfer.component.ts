@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { Erc20BalanceOf, TransferHistory } from 'src/app/models/models.types';
+import { AddressBook, Erc20BalanceOf, TransferHistory } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Erc20Service } from 'src/app/services/content/erc20.service';
@@ -26,13 +26,17 @@ export class Erc20TransferComponent implements OnInit {
   serviceName = '';
   walletAddress = '';
   email = '';
+
   erc20Balance$! : Observable<Erc20BalanceOf | undefined>
   toAddress = new FormControl(null); // 手動入力したアドレス
   amount = new FormControl(null); // 手動入力した名前
   isError = false;
   transferHistoryList: TransferHistory[] = [];
+  addressBookList: AddressBook[] = [];
   explorerBaseUrl = environment.erc20ExplorerUrl + '/tx';
 
+  // Historyテーブルに表示する列
+  displayedColumns: string[] = ['date', 'to', 'value', 'transaction-hash'];
   constructor(
     private router: Router,
     private storageService: StorageService,
@@ -54,7 +58,9 @@ export class Erc20TransferComponent implements OnInit {
     this.spinner.show();
     await this.erc20Service.fetch(this.walletAddress);
     this.erc20Balance$ = this.erc20Service.erc20$;
-    this.transferHistoryList = await this.storageService.getTransferHisoryList(this.walletAddress) ?? [];
+    this.transferHistoryList = (await this.storageService.getTransferHisoryList(this.walletAddress))
+      .sort((a, b) =>(b.dateTime - a.dateTime));
+    this.addressBookList = await this.storageService.getAddressBookList(this.walletAddress);
     this.spinner.hide();
   }
 
@@ -92,11 +98,17 @@ export class Erc20TransferComponent implements OnInit {
     this.transferService.balance = this.erc20Service.erc20.balance;
     this.router.navigate(['/mirai-transfer-confirm']);
   }
-    
+
   // Nextボタンのdisabled判定
   get formIsValid() {
     const res = this.toAddress.value && this.amount.value ? true : false;
     return res;
   }
 
+  // addressからaddressBookのnameに変換する
+  // addressBookに存在しなければaddressを返す
+  getNameFromAddress(_address: string): string {
+    const addressbook = this.addressBookList.find(addressBook => addressBook.address === _address);
+    return addressbook?.name ?? _address;
+  }
 }

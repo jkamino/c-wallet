@@ -39,5 +39,30 @@
    .address-input {
       font-size: var(--font-small);
    }
+
+   .history-table {
+      width: 100%;
+      table-layout: fixed;
+      td {
+         overflow: hidden;
+         text-overflow: ellipsis;
+         white-space: nowrap;
+         padding: 0px;
+      }
+   }
+   .mat-column-date {
+      width: 30%;
+   }
+   .mat-column-to {
+      width: 30%;
+      text-align: center;
+   }
+   .mat-column-value {
+      width: 20%;
+      text-align: center;
+   }
+   .mat-column-transaction-hash {
+      width: 20%;
+   }
 }
   

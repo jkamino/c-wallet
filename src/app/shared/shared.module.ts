@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
+import { MatTableModule } from '@angular/material/table';
 import { RegisterAddressDialogComponent } from './components/register-address-dialog/register-address-dialog.component';
 import { SelectAddressDialogComponent } from './components/select-address-dialog/select-address-dialog.component';
 
@@ -28,6 +29,7 @@ import { SelectAddressDialogComponent } from './components/select-address-dialog
     MatInputModule,
     MatListModule,
     MatFormFieldModule,
+    MatTableModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FormsModule,
@@ -43,6 +45,7 @@ import { SelectAddressDialogComponent } from './components/select-address-dialog
     MatInputModule,
     MatSelectModule,
     MatFormFieldModule,
+    MatTableModule,
     MatSnackBarModule,
     MatDividerModule,
   ],

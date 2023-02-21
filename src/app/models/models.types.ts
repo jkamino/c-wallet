@@ -94,7 +94,7 @@ export type AddressBook = {
  */
 export type TransferHistory = {
   owner: string;
-  dateTime: Date;
+  dateTime: number;
   to: string;
   value: string;
   transactionHash: string;
