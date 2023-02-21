@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClipboardService } from 'ngx-clipboard';
 import { IClipboardResponse } from 'src/app/models/models.types';
 import { RouterService } from 'src/app/services/router/router.service';
+import { FooterService } from 'src/app/shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-create-wallet-complete',
@@ -24,6 +25,7 @@ export class CreateWalletCompleteComponent implements OnInit {
     private storageService: StorageService,
     private routerService: RouterService,
     private keyService: KeyService,
+    private footerService: FooterService,
     private _snackBar: MatSnackBar,
     private _clipboardService: ClipboardService
   ) {
@@ -84,6 +86,7 @@ export class CreateWalletCompleteComponent implements OnInit {
 
   // 確認ボタンを押下
   confirmed() {
+    this.footerService.show();
     this.router.navigate(['/contract-select']);
   }
 }

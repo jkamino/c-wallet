@@ -6,6 +6,7 @@ import { CryptService } from 'src/app/services/crypt/crypt.service';
 import { KeyService } from 'src/app/services/key/key.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ConfirmDialogService } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { FooterService } from 'src/app/shared/components/footer/footer.component';
 
 @Component({
   selector: 'app-login-by-secret-key',
@@ -34,6 +35,7 @@ export class CreateBySecretKeyComponent {
     private storageService: StorageService,
     private cryptService: CryptService,
     private authService: AuthService,
+    private footerService: FooterService,
     private confirmDialog: ConfirmDialogService
   ) {}
 
@@ -74,6 +76,7 @@ export class CreateBySecretKeyComponent {
         address
       );
       await this.storageService.setEmailAddress(encryptedEmailAddress);
+      this.footerService.show();
       this.router.navigate(['/contract-select']);
     } else {
       this.confirmDialog.openComplete(
