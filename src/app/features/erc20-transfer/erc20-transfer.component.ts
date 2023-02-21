@@ -45,6 +45,7 @@ export class Erc20TransferComponent implements OnInit {
     private selectAddressDialog: SelectAddressDialogService,
     private appService: AppService,
     private authService: AuthService,
+    private confirmService: ConfirmDialogService,
     private spinner: NgxSpinnerService,
     private keyService: KeyService,
     private _clipboardService: ClipboardService,
@@ -56,12 +57,17 @@ export class Erc20TransferComponent implements OnInit {
     this.email = await this.keyService.getDecryptEmailAddress();
     this.serviceName = await this.appService.getContractServiceName();
     this.spinner.show();
-    await this.erc20Service.fetch(this.walletAddress);
-    this.erc20Balance$ = this.erc20Service.erc20$;
-    this.transferHistoryList = (await this.storageService.getTransferHisoryList(this.walletAddress))
-      .sort((a, b) =>(b.dateTime - a.dateTime));
-    this.addressBookList = await this.storageService.getAddressBookList(this.walletAddress);
-    this.spinner.hide();
+    try {
+      await this.erc20Service.fetch(this.walletAddress);
+      this.erc20Balance$ = this.erc20Service.erc20$;
+      this.transferHistoryList = (await this.storageService.getTransferHisoryList(this.walletAddress))
+        .sort((a, b) =>(b.dateTime - a.dateTime));
+      this.addressBookList = await this.storageService.getAddressBookList(this.walletAddress);
+    } catch(e) {
+      this.confirmService.openComplete('error occured!');
+    } finally {
+      this.spinner.hide();
+    }
   }
 
   async logout() {

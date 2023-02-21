@@ -47,9 +47,14 @@ export class Erc20BalanceComponent implements OnInit {
     this.email = await this.keyService.getDecryptEmailAddress();
     this.serviceName = await this.appService.getContractServiceName();
     this.spinner.show();
-    await this.erc20Service.fetch(this.walletAddress);
-    this.erc20Balance$ = this.erc20Service.erc20$;
-    this.spinner.hide();
+    try {
+      await this.erc20Service.fetch(this.walletAddress);
+      this.erc20Balance$ = this.erc20Service.erc20$;
+    } catch(e) {
+      this.confirmDialog.openComplete('error occured!');
+    } finally {
+      this.spinner.hide();
+    }
   }
 
   async logout() {
