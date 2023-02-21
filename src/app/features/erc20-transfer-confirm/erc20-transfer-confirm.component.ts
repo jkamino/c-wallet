@@ -105,10 +105,14 @@ export class Erc20TransferConfirmComponent implements OnInit {
       );
       if (transactionHash) {
         // 成功時
-        // トランザクション履歴を追加してストレージに保存
-        const historyList = await this.storageService.getTransactionHisoryList() || [];
-        historyList.push(transactionHash as string);
-        await this.storageService.setTransactionHistoryList(historyList);
+        // 送信履歴をストレージに追加
+        await this.storageService.addTransferHistory({
+          owner: this.walletAddress,
+          dateTime: new Date(),
+          to: this.toAddress,
+          value: this.amount,
+          transactionHash: transactionHash as string
+        });
         // 送信後の残高を取得
         await this.erc20Service.fetch(this.walletAddress);
       } else {

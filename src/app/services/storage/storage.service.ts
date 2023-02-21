@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { Account, AddressBook, Contract } from 'src/app/models/models.types';
+import { Account, AddressBook, Contract, TransferHistory } from 'src/app/models/models.types';
 /**
  * ローカルストレージの管理サービス
  * set/getでローカルストレージの操作をまとめる
@@ -119,18 +119,23 @@ export class StorageService {
     await Storage.remove({ key: 'transactionHash' });
   }
 
-  /**transaction history list*/
-  async setTransactionHistoryList(_transactionHistoryList: string[]): Promise<void> {
-    const historyList = JSON.stringify(_transactionHistoryList);
-    await Storage.set({ key: 'transactionHistoryList', value: historyList });
+  /** transfer history list*/
+  /* transfer history listは自分のものだけアクセスさせる */
+  async addTransferHistory(_transferHistory: TransferHistory): Promise<void> {
+    const item = await Storage.get({ key: 'transferHistory' });
+    const oldHisotiryList: TransferHistory[] = item.value ? JSON.parse(item.value) : [];
+    const newItem = JSON.stringify([...oldHisotiryList, _transferHistory]);
+    await Storage.set({ key: 'transferHistory', value: newItem });
   }
-  async getTransactionHisoryList(): Promise<string[] | null> {
-      const item = await Storage.get({ key: 'transactionHistoryList' });
-      const historyList = item.value ? JSON.parse(item.value) : [];
-      return historyList;
+  async getTransferHisoryList(_owner: string): Promise<TransferHistory[]> {
+    const item = await Storage.get({ key: 'transferHistory' });
+    const wholeHistoryList: TransferHistory[] = item.value ? JSON.parse(item.value) : [];
+    const myHistoryList = wholeHistoryList
+      .filter(historyList => historyList.owner === _owner)
+    return myHistoryList;
   }
-  async clearTransactionHiastoryList(): Promise<void> {
-    await Storage.remove({ key: 'transactionHistoryList' });
+  async clearTransferHiastoryList(): Promise<void> {
+    await Storage.remove({ key: 'transferHistory' });
   }
   
   /**address book */

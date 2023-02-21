@@ -5,7 +5,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Observable } from 'rxjs';
-import { Erc20BalanceOf } from 'src/app/models/models.types';
+import { Erc20BalanceOf, TransferHistory } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Erc20Service } from 'src/app/services/content/erc20.service';
@@ -30,7 +30,7 @@ export class Erc20TransferComponent implements OnInit {
   toAddress = new FormControl(null); // 手動入力したアドレス
   amount = new FormControl(null); // 手動入力した名前
   isError = false;
-  transactionHistoryList: string[] = [];
+  transferHistoryList: TransferHistory[] = [];
   explorerBaseUrl = environment.erc20ExplorerUrl + '/tx';
 
   constructor(
@@ -54,7 +54,7 @@ export class Erc20TransferComponent implements OnInit {
     this.spinner.show();
     await this.erc20Service.fetch(this.walletAddress);
     this.erc20Balance$ = this.erc20Service.erc20$;
-    this.transactionHistoryList = await this.storageService.getTransactionHisoryList() ?? [];
+    this.transferHistoryList = await this.storageService.getTransferHisoryList(this.walletAddress) ?? [];
     this.spinner.hide();
   }
 

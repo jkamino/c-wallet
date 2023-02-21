@@ -77,8 +77,8 @@
     <div class="history-container">
       <h3>History:</h3>
       <mat-list>
-        <ng-container *ngFor="let transactionHash of this.transactionHistoryList">
-          <mat-list-item><a href="{{this.explorerBaseUrl}}/{{transactionHash}}" target="_blank" rel="noopener noreferrer"><p class="transaction-hash">{{transactionHash}}</p></a></mat-list-item>
+        <ng-container *ngFor="let transferHistory of this.transferHistoryList">
+          <mat-list-item><a href="{{this.explorerBaseUrl}}/{{transferHistory.transactionHash}}" target="_blank" rel="noopener noreferrer"><p class="transaction-hash">{{transferHistory.transactionHash}}</p></a></mat-list-item>
         </ng-container>
       </mat-list>
     </div>
