@@ -11,7 +11,6 @@ import { KeyService } from 'src/app/services/key/key.service';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogService } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { FooterService } from 'src/app/shared/components/footer/footer.component';
 @Component({
   selector: 'app-content-nft-list',
   templateUrl: './content-nft-list.component.html',
@@ -32,7 +31,6 @@ export class ContentNftListComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private authService: AuthService,
     private keyService: KeyService,
-    private footerService: FooterService,
     private _clipboardService: ClipboardService,
     private _snackBar: MatSnackBar
   ) {}
@@ -41,7 +39,6 @@ export class ContentNftListComponent implements OnInit {
     this.walletAddress = (await this.storageService.getWalletAddress()) ?? '';
     this.serviceName = await this.appService.getContractServiceName();
     this.email = await this.keyService.getDecryptEmailAddress();
-    this.footerService.show();
     this.spinner.show();
     try {
       await this.contentService.fetchData(this.walletAddress);

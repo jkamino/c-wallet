@@ -1,5 +1,6 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -7,12 +8,17 @@ import { StorageService } from 'src/app/services/storage/storage.service';
   templateUrl: './footer.component.html',
   styleUrls: ['./footer.component.scss']
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
   constructor(
     private router: Router,
     private footerService: FooterService,
-    private storageService: StorageService
+    private storageService: StorageService,
+    private authService: AuthService
   ) {}
+
+  async ngOnInit(): Promise<void> {
+    this.footerService.visible = await this.authService.isAuth();
+  }
 
   // 表示判定
   get visible() {

@@ -4,6 +4,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Account } from 'src/app/models/models.types';
+import { FooterService } from 'src/app/shared/components/footer/footer.component';
 import { CryptService } from '../crypt/crypt.service';
 import { KeyService } from '../key/key.service';
 import { StorageService } from '../storage/storage.service';
@@ -16,6 +17,7 @@ export class AuthService {
     private storageService: StorageService,
     private cryptService: CryptService,
     private keyService: KeyService,
+    private footerService: FooterService,
     private router: Router
   ) {}
   /**
@@ -59,6 +61,7 @@ export class AuthService {
         await this.storageService.setEmailAddress(account.emailAddress);
         await this.storageService.setContractService(account.contractService);
         await this.storageService.setContractList(account.contractList);
+        this.footerService.show();
         return true;
       } else {
         continue;
@@ -147,6 +150,7 @@ export class AuthService {
     await this.storageService.clearContractService();
     await this.storageService.clearContractAddress();
     await this.storageService.clearEmailAddress();
+    this.footerService.hide();
     this.router.navigate(['/select-wallet']);
   }
 }
