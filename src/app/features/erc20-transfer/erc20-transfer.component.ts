@@ -54,7 +54,7 @@ export class Erc20TransferComponent implements OnInit {
     this.spinner.show();
     await this.erc20Service.fetch(this.walletAddress);
     this.erc20Balance$ = this.erc20Service.erc20$;
-    this.transactionHistoryList = await this.storageService.getTransactionHisoryList() || [];
+    this.transactionHistoryList = await this.storageService.getTransactionHisoryList() ?? [];
     this.spinner.hide();
   }
 

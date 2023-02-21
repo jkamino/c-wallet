@@ -2,6 +2,7 @@ import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
+import { AddressBook } from 'src/app/models/models.types';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.component';
 
@@ -31,14 +32,23 @@ export class RegisterAddressDialogComponent {
   }
 
   async done(): Promise<void> {
-    const name = this.form.getRawValue().name;
-    const addressBook = await this.storageService.getAddressBook() || [];
-    const registerd = addressBook.find((address) => address.address === this.data.address);
-    if(registerd) {
+    const _walletAddress = await this.storageService.getWalletAddress() ?? '';
+    const _name = this.form.getRawValue().name;
+    if (_walletAddress === '' || _name === '') {
+      return;
+    }
+    const _addressBookList = await this.storageService.getAddressBookList(_walletAddress) || [];
+    const _registerd = _addressBookList
+      .find((address) => address.address === this.data.address);
+    if(!!_registerd) {
       this.confirmDialogService.openComplete("This Address is already registerd.");
     } else {
-      addressBook.push({name: name, address: this.data.address});
-      await this.storageService.setAddressBook(addressBook);
+      const _newAddressBook: AddressBook = {
+        owner: _walletAddress,
+        name: _name,
+        address: this.data.address
+      }
+      await this.storageService.addAddressBook(_newAddressBook,);
     }
     this.dialogRef.close();
   }

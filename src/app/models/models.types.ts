@@ -85,9 +85,20 @@ export type Account = {
  * address book
  */
 export type AddressBook = {
+  owner: string;
   name: string;
   address: string;
 };
+/**
+ * transfer history
+ */
+export type TransferHistory = {
+  owner: string;
+  dateTime: Date;
+  to: string;
+  value: string;
+  transactionHash: string;
+}
 /**
  * clipboard
  */

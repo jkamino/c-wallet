@@ -134,16 +134,21 @@ export class StorageService {
   }
   
   /**address book */
-  async setAddressBook(_addressBook: AddressBook[]): Promise<void> {
-    const historyList = JSON.stringify(_addressBook);
-    await Storage.set({ key: 'addressBook', value: historyList });
+  /* address bookは自分のものだけアクセスさせる */
+  async addAddressBook(_addressBook: AddressBook): Promise<void> {
+    const item = await Storage.get({ key: 'addressBook' });
+    const oldAddressBookList: AddressBook[] = item.value ? JSON.parse(item.value) : [];
+    const newItem = JSON.stringify([...oldAddressBookList, _addressBook]);
+    await Storage.set({ key: 'addressBook', value: newItem });
   }
-  async getAddressBook(): Promise<AddressBook[] | null> {
+  async getAddressBookList(_owner: string): Promise<AddressBook[]> {
       const item = await Storage.get({ key: 'addressBook' });
-      const addressbook = item.value ? JSON.parse(item.value) : [];
-      return addressbook;
+      const wholeAddressbook: AddressBook[] = item.value ? JSON.parse(item.value) : [];
+      const myAddressBook = wholeAddressbook
+        .filter(addressBook => addressBook.owner === _owner)
+      return myAddressBook;
   }
-  async clearAddressBook(): Promise<void> {
+  async clearAddressBookList(): Promise<void> {
     await Storage.remove({ key: 'addressBook' });
   }
 

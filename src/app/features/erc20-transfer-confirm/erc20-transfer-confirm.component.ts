@@ -57,13 +57,15 @@ export class Erc20TransferConfirmComponent implements OnInit {
     this.toAddress = this.transferService.toAddress;
     this.amount = this.transferService.amount;
     this.balance = this.transferService.balance;
-    this.addressBook = (await this.storageService.getAddressBook())?.find((addressBook) => addressBook.address === this.toAddress);
+    this.addressBook = (await this.storageService.getAddressBookList(this.walletAddress))
+      .find((addressBook) => addressBook.address === this.toAddress);
   }
 
   // アドレスを登録
   async registerAddress() {
     await this.registerAddressDialog.open(this.toAddress);
-    this.addressBook = (await this.storageService.getAddressBook())?.find((addressBook) => addressBook.address === this.toAddress);
+    this.addressBook = (await this.storageService.getAddressBookList(this.walletAddress))
+      .find((addressBook) => addressBook.address === this.toAddress);
   }
   async back() {
     this.router.navigate(['/mirai-transfer']);
