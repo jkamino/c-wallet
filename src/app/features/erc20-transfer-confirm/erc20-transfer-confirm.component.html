@@ -34,18 +34,19 @@
     </div>
   </section>
   <section class="main-container">
-      <mat-grid-list cols="10" rowHeight="2.6em" style="margin-bottom: 30px;">
-        <mat-grid-tile>
+      <mat-grid-list cols="16" rowHeight="1:1">
+        <mat-grid-tile colspan="2">
             To: 
         </mat-grid-tile>
-        <mat-grid-tile colspan="9">
+        <mat-grid-tile colspan="14">
           <div class="text-left-inside-grid address-text"> {{toAddress}}</div>
         </mat-grid-tile>
-        <mat-grid-tile colspan="10">
+        <mat-grid-tile colspan="16" rowspan="3">
           <ng-container *ngIf="!addressBook; else showName">
             <button 
               type="button"
               class="rectangle-btn"
+              style="background-color: var(--sub-gray);"
               (click)="registerAddress()"
             >
               New address detected<br/> Click here to add to address book.
@@ -55,21 +56,23 @@
             {{addressBook?.name}}
           </ng-template> 
         </mat-grid-tile>
-      </mat-grid-list>
-      <mat-grid-list cols="4" rowHeight="2em">
-        <mat-grid-tile>
+        <mat-grid-tile colspan="16" rowspan="2">
+        </mat-grid-tile>
+        <mat-grid-tile colspan="4" rowspan="2">
             Amount:
         </mat-grid-tile>
-        <mat-grid-tile colspan="3">
+        <mat-grid-tile colspan="12" rowspan="2">
           <div class="text-left-inside-grid"> {{this.amount | toBaseUnit}}</div>
         </mat-grid-tile>
-        <mat-grid-tile>
+        <mat-grid-tile colspan="4" rowspan="2">
           Balance:
-      </mat-grid-tile>
-      <mat-grid-tile colspan="3">
-        <div class="text-left-inside-grid"> {{this.balance | toBaseUnit}}</div>
-      </mat-grid-tile>
-  </mat-grid-list>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="12" rowspan="2">
+          <div class="text-left-inside-grid"> {{this.balance | toBaseUnit}}</div>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="16" rowspan="2">
+        </mat-grid-tile>
+      </mat-grid-list>
       <button
             style="margin: 10px;"
             type="button"
