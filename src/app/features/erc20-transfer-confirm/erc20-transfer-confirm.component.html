@@ -23,7 +23,7 @@
     <span class="material-symbols-outlined"> logout </span>
   </div>
 </div>
-    
+
 <!-- main content -->
 <div class="page-container">
   <!-- back button -->
@@ -36,14 +36,14 @@
   <section class="main-container">
       <mat-grid-list cols="16" rowHeight="1:1">
         <mat-grid-tile colspan="2">
-            To: 
+            To:
         </mat-grid-tile>
         <mat-grid-tile colspan="14">
           <div class="text-left-inside-grid address-text"> {{toAddress}}</div>
         </mat-grid-tile>
         <mat-grid-tile colspan="16" rowspan="3">
           <ng-container *ngIf="!addressBook; else showName">
-            <button 
+            <button
               type="button"
               class="rectangle-btn"
               style="background-color: var(--sub-gray);"
@@ -54,7 +54,7 @@
           </ng-container>
           <ng-template #showName>
             {{addressBook?.name}}
-          </ng-template> 
+          </ng-template>
         </mat-grid-tile>
         <mat-grid-tile colspan="16" rowspan="2">
         </mat-grid-tile>
@@ -74,14 +74,12 @@
         </mat-grid-tile>
       </mat-grid-list>
       <button
-            style="margin: 10px;"
-            type="button"
-            class="primary-btn"
-            (click)="transfer()"
-            [disabled]="!formIsValid"
-        >
-            Transfer
-        </button>
+        type="button"
+        class="primary-btn"
+        (click)="transfer()"
+        [disabled]="!formIsValid"
+      >
+        Transfer
+      </button>
   </section>
 </div>
-  

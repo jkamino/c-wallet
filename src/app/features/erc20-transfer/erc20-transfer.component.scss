@@ -2,7 +2,7 @@
     input:-moz-read-only { /* For Firefox */
       color: darkgrey;
    }
-   
+
    input:read-only {
       color: darkgrey;
    }
@@ -23,7 +23,7 @@
       width: 100%;
    }
    .mat-form-field {
-      width:90%;
+      width: 100%;
    }
    .drop-down-button {
       vertical-align: top;
@@ -34,6 +34,9 @@
       vertical-align: middle;
       color: var(--main-blue);
       font-size: 2em;
+      position: absolute;
+      right: 10px;
+      top: -65px;
    }
 
    .address-input {
@@ -65,4 +68,3 @@
       width: 20%;
    }
 }
-  

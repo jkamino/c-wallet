@@ -23,7 +23,7 @@
       <span class="material-symbols-outlined"> logout </span>
     </div>
   </div>
-  
+
 <!-- main content -->
 <div class="page-container">
   <!-- back button -->
@@ -54,23 +54,23 @@
         <mat-form-field appearance="fill">
           <mat-label>To:</mat-label>
           <input matInput [formControl]="toAddress" class="address-input" />
-          </mat-form-field>
-          <button mat-flat-button (click)="openAddressBook()" class="drop-down-button">
-            <mat-icon class="drop-down-icon">arrow_drop_down_circle</mat-icon>
-          </button>
+        </mat-form-field>
+        <div style="position: relative;">
+          <mat-icon class="drop-down-icon" (click)="openAddressBook()">arrow_drop_down_circle</mat-icon>
+        </div>
       </div>
       <mat-form-field appearance="fill">
       <mat-label>Amount:</mat-label>
       <input matInput [formControl]="amount" />
       </mat-form-field>
-      <section class="btn-container">
+      <section class="btn-container" style="width: 100%;">
         <button
-            type="button"
-            class="primary-btn"
-            (click)="next()"
-            [disabled]="!formIsValid"
+          type="button"
+          class="primary-btn"
+          (click)="next()"
+          [disabled]="!formIsValid"
         >
-            Next
+          Next
         </button>
       </section>
     </div>
