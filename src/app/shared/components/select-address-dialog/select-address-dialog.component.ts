@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 import { AddressBook } from 'src/app/models/models.types';
+import { KeyService } from 'src/app/services/key/key.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 
 @Component({
@@ -22,11 +23,12 @@ export class SelectAddressDialogComponent implements OnInit {
     >,
     private fb: FormBuilder,
     private storageService: StorageService,
+    private keyService : KeyService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    const walletAddress = await this.storageService.getWalletAddress() ?? '';
-    this.addressBookList = (await this.storageService.getAddressBookList(walletAddress))
+    const encryptedEmail = await this.storageService.getEmailAddress() ?? '';
+    this.addressBookList = (await this.keyService.getDecryptedAddressBookList(encryptedEmail))
       .sort((a, b) => a.name.localeCompare(b.name));
   }
   async select(): Promise<void> {

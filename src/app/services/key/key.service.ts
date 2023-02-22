@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AddressBook, TransferHistory } from 'src/app/models/models.types';
 import { CryptService } from '../crypt/crypt.service';
 import { StorageService } from '../storage/storage.service';
 import { Web3Service } from '../web3/web3.service';
@@ -106,5 +107,69 @@ export class KeyService {
     } catch {
       return '';
     }
+  }
+
+  /**
+   * 復号した送信履歴を取得
+   */
+  async getDecryptedTransferHistoryList(
+    _encryptedEmail: string
+  ): Promise<TransferHistory[]> {
+    const walletAddress = await this.storageService.getWalletAddress() ?? '';
+    const encryptedHistory = 
+      (await this.storageService.getEncryptedTransferHisory(_encryptedEmail))?.encryptedList ?? '';
+    try {
+      const decryptedHistoryList:TransferHistory[] =
+        JSON.parse(this.cryptService.decryption(encryptedHistory, walletAddress)) || [];
+      return decryptedHistoryList;
+    } catch(e) {
+      return [];
+    }
+  }
+
+  /**
+   * 送信履歴を暗号化して保存
+   */
+  async setDecryptedTransferHistoryList(
+    _encryptedEmail: string,
+    _transferHistoryList: TransferHistory[]
+  ): Promise<void> {
+    const walletAddress = await this.storageService.getWalletAddress() ?? '';
+    
+    const encryptedHistory = 
+      this.cryptService.encryption(JSON.stringify(_transferHistoryList), walletAddress);
+    this.storageService.setEncryptedTransferHistory(_encryptedEmail, encryptedHistory);
+  }
+
+  /**
+   * 復号したアドレスブックを取得
+   */
+  async getDecryptedAddressBookList(
+    _encryptedEmail: string
+  ): Promise<AddressBook[]> {
+    const walletAddress = await this.storageService.getWalletAddress() ?? '';
+    const encryptedAddressBook = 
+      (await this.storageService.getEncryptedAddressBook(_encryptedEmail))?.encryptedList ?? '';
+    try {
+      const decryptedAddressBookList:AddressBook[] =
+        JSON.parse(this.cryptService.decryption(encryptedAddressBook, walletAddress)) || [];
+      return decryptedAddressBookList;
+    } catch(e) {
+      return [];
+    }
+  }
+
+  /**
+   * アドレスブックを暗号化して保存
+   */
+  async setDecryptedAddressBookList(
+    _encryptedEmail: string,
+    _addressBookList: AddressBook[]
+  ): Promise<void> {
+    const walletAddress = await this.storageService.getWalletAddress() ?? '';
+    
+    const encryptedAddressBook = 
+      this.cryptService.encryption(JSON.stringify(_addressBookList), walletAddress);
+    this.storageService.setEncryptedAddressBook(_encryptedEmail, encryptedAddressBook);
   }
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { firstValueFrom } from 'rxjs';
 import { AddressBook } from 'src/app/models/models.types';
+import { KeyService } from 'src/app/services/key/key.service';
 import { StorageService } from 'src/app/services/storage/storage.service';
 import { ConfirmDialogService } from '../confirm-dialog/confirm-dialog.component';
 
@@ -25,6 +26,7 @@ export class RegisterAddressDialogComponent {
     >,
     private fb: FormBuilder,
     private storageService: StorageService,
+    private keyService: KeyService,
     private confirmDialogService: ConfirmDialogService
   ) {
     this.form.setValue({name : "", address : data.address});
@@ -32,23 +34,25 @@ export class RegisterAddressDialogComponent {
   }
 
   async done(): Promise<void> {
-    const _walletAddress = await this.storageService.getWalletAddress() ?? '';
-    const _name = this.form.getRawValue().name;
-    if (_walletAddress === '' || _name === '') {
+    const encryptedEmail = await this.storageService.getEmailAddress() ?? '';
+    const name = this.form.getRawValue().name;
+    if (encryptedEmail === '' || name === '') {
       return;
     }
-    const _addressBookList = await this.storageService.getAddressBookList(_walletAddress) || [];
-    const _registerd = _addressBookList
+    const addressBookList = await this.keyService.getDecryptedAddressBookList(encryptedEmail) || [];
+    const registerd = addressBookList
       .find((address) => address.address === this.data.address);
-    if(!!_registerd) {
+    if(!!registerd) {
       this.confirmDialogService.openComplete("This Address is already registerd.");
     } else {
-      const _newAddressBook: AddressBook = {
-        owner: _walletAddress,
-        name: _name,
+      const newAddressBook: AddressBook = {
+        name: name,
         address: this.data.address
       }
-      await this.storageService.addAddressBook(_newAddressBook,);
+      await this.keyService.setDecryptedAddressBookList(
+        encryptedEmail,
+        [...addressBookList, newAddressBook]
+      );
     }
     this.dialogRef.close();
   }

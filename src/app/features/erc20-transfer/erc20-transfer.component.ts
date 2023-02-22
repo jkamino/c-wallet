@@ -26,7 +26,7 @@ export class Erc20TransferComponent implements OnInit {
   serviceName = '';
   walletAddress = '';
   email = '';
-
+  encryptedEmail = '';
   erc20Balance$! : Observable<Erc20BalanceOf | undefined>
   toAddress = new FormControl(null); // 手動入力したアドレス
   amount = new FormControl(null); // 手動入力した名前
@@ -55,14 +55,15 @@ export class Erc20TransferComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.walletAddress = (await this.storageService.getWalletAddress()) ?? '';
     this.email = await this.keyService.getDecryptEmailAddress();
+    this.encryptedEmail = await this.storageService.getEmailAddress() ?? '';
     this.serviceName = await this.appService.getContractServiceName();
     this.spinner.show();
     try {
       await this.erc20Service.fetch(this.walletAddress);
       this.erc20Balance$ = this.erc20Service.erc20$;
-      this.transferHistoryList = (await this.storageService.getTransferHisoryList(this.walletAddress))
+      this.transferHistoryList = (await this.keyService.getDecryptedTransferHistoryList(this.encryptedEmail))
         .sort((a, b) =>(b.dateTime - a.dateTime));
-      this.addressBookList = await this.storageService.getAddressBookList(this.walletAddress);
+      this.addressBookList = await this.keyService.getDecryptedAddressBookList(this.encryptedEmail);
     } catch(e) {
       this.confirmService.openComplete('error occured!');
     } finally {
@@ -111,8 +112,8 @@ export class Erc20TransferComponent implements OnInit {
     return res;
   }
 
-  // addressからaddressBookのnameに変換する
-  // addressBookに存在しなければaddressを返す
+  // addressから対応するaddressBookのnameに変換する
+  // addressBookにaddressが存在しなければそのままaddressを返す
   getNameFromAddress(_address: string): string {
     const addressbook = this.addressBookList.find(addressBook => addressBook.address === _address);
     return addressbook?.name ?? _address;

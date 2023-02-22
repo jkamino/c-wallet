@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@capacitor/storage';
-import { Account, AddressBook, Contract, TransferHistory } from 'src/app/models/models.types';
+import { Account, AddressBook, Contract, EncryptedAddressBook, EncryptedTransferHistory, TransferHistory } from 'src/app/models/models.types';
 /**
  * ローカルストレージの管理サービス
  * set/getでローカルストレージの操作をまとめる
@@ -119,38 +119,47 @@ export class StorageService {
     await Storage.remove({ key: 'transactionHash' });
   }
 
-  /** transfer history list*/
-  /* transfer history listは自分のものだけアクセスさせる */
-  async addTransferHistory(_transferHistory: TransferHistory): Promise<void> {
+  /** transfer history*/
+  /* transfer historyは自分のもののみアクセスさせるため、キーであるencryptedEmailを引数に持つ */
+  async setEncryptedTransferHistory(_encryptedEmail: string, _encryptedHistory: string): Promise<void> {
     const item = await Storage.get({ key: 'transferHistory' });
-    const oldHisotiryList: TransferHistory[] = item.value ? JSON.parse(item.value) : [];
-    const newItem = JSON.stringify([...oldHisotiryList, _transferHistory]);
-    await Storage.set({ key: 'transferHistory', value: newItem });
+    const oldHisotiryList: EncryptedTransferHistory[] = item.value ? JSON.parse(item.value) : [];
+    // encryptedEmailをキーとして置き換え
+    const newHistoryList: EncryptedTransferHistory[] = [
+      ...(oldHisotiryList.filter(history => history.encryptedEmail !== _encryptedEmail)),
+       {encryptedEmail:_encryptedEmail, encryptedList: _encryptedHistory}
+    ];
+    await Storage.set({ key: 'transferHistory', value: JSON.stringify(newHistoryList) });
   }
-  async getTransferHisoryList(_owner: string): Promise<TransferHistory[]> {
+  async getEncryptedTransferHisory(_encryptedEmail: string): Promise<EncryptedTransferHistory | undefined> {
     const item = await Storage.get({ key: 'transferHistory' });
-    const wholeHistoryList: TransferHistory[] = item.value ? JSON.parse(item.value) : [];
+    const wholeHistoryList: EncryptedTransferHistory[] = item.value ? JSON.parse(item.value) : [];
     const myHistoryList = wholeHistoryList
-      .filter(historyList => historyList.owner === _owner)
+      .find(historyList => historyList.encryptedEmail === _encryptedEmail)
     return myHistoryList;
   }
-  async clearTransferHiastoryList(): Promise<void> {
+  async clearEncryptedTransferHiastoryList(): Promise<void> {
     await Storage.remove({ key: 'transferHistory' });
   }
   
   /**address book */
-  /* address bookは自分のものだけアクセスさせる */
-  async addAddressBook(_addressBook: AddressBook): Promise<void> {
+  /* address bookは自分のもののみアクセスさせるため、キーであるencryptedEmailを引数に持つ */
+  async setEncryptedAddressBook(_encryptedEmail: string, _encryptedAddressBook: string): Promise<void> {
     const item = await Storage.get({ key: 'addressBook' });
-    const oldAddressBookList: AddressBook[] = item.value ? JSON.parse(item.value) : [];
-    const newItem = JSON.stringify([...oldAddressBookList, _addressBook]);
-    await Storage.set({ key: 'addressBook', value: newItem });
+    const oldAddressBookList: EncryptedAddressBook[] = item.value ? JSON.parse(item.value) : [];
+    // encryptedEmailをキーとして置き換え
+    const newAddressBookList: EncryptedAddressBook[] = [
+      ...(oldAddressBookList.filter(addressBook => addressBook.encryptedEmail !== _encryptedEmail)),
+        {encryptedEmail:_encryptedEmail, encryptedList: _encryptedAddressBook}
+    ];
+    
+    await Storage.set({ key: 'addressBook', value: JSON.stringify(newAddressBookList) });
   }
-  async getAddressBookList(_owner: string): Promise<AddressBook[]> {
+  async getEncryptedAddressBook(_encryptedEmail: string): Promise<EncryptedAddressBook | undefined> {
       const item = await Storage.get({ key: 'addressBook' });
-      const wholeAddressbook: AddressBook[] = item.value ? JSON.parse(item.value) : [];
+      const wholeAddressbook: EncryptedAddressBook[] = item.value ? JSON.parse(item.value) : [];
       const myAddressBook = wholeAddressbook
-        .filter(addressBook => addressBook.owner === _owner)
+        .find(addressBook => addressBook.encryptedEmail === _encryptedEmail)
       return myAddressBook;
   }
   async clearAddressBookList(): Promise<void> {

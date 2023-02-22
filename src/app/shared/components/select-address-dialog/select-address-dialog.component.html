@@ -1,8 +1,13 @@
 <section class="address-book-container">
   <h4>Select transfer address</h4>
-  <ul>
-    <ng-container *ngFor="let addressBook of addressBookList">
-      <li (click)="done(addressBook.address)" class="under-line"><p class="address-book-name">{{addressBook.name}}: </p><p class="address-book-address">{{addressBook.address}}</p></li>
-    </ng-container>
-  </ul>
+  <ng-container *ngIf="addressBookList.length; else noAddress" >
+    <ul>
+      <ng-container *ngFor="let addressBook of addressBookList">
+        <li (click)="done(addressBook.address)" class="under-line"><p class="address-book-name">{{addressBook.name}}: </p><p class="address-book-address">{{addressBook.address}}</p></li>
+      </ng-container>
+    </ul>
+  </ng-container>
+  <ng-template #noAddress>
+    No address found.
+  </ng-template>
 </section>

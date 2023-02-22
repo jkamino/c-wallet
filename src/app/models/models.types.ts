@@ -85,19 +85,25 @@ export type Account = {
  * address book
  */
 export type AddressBook = {
-  owner: string;
   name: string;
   address: string;
 };
+export type EncryptedAddressBook = {
+  encryptedEmail: string;
+  encryptedList: string;
+}
 /**
  * transfer history
  */
 export type TransferHistory = {
-  owner: string;
   dateTime: number;
   to: string;
   value: string;
   transactionHash: string;
+}
+export type EncryptedTransferHistory = {
+  encryptedEmail: string;
+  encryptedList: string;
 }
 /**
  * clipboard

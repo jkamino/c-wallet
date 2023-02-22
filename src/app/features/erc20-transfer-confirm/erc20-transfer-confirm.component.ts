@@ -25,6 +25,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
   serviceName = '';
   walletAddress = '';
   email = '';
+  encryptedEmail = '';
   toAddress = '';
   amount = '';
   balance = '';
@@ -53,18 +54,20 @@ export class Erc20TransferConfirmComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.walletAddress = (await this.storageService.getWalletAddress()) ?? '';
     this.email = await this.keyService.getDecryptEmailAddress();
+    this.encryptedEmail = await this.storageService.getEmailAddress() ?? '';
     this.serviceName = await this.appService.getContractServiceName();
     this.toAddress = this.transferService.toAddress;
     this.amount = this.transferService.amount;
     this.balance = this.transferService.balance;
-    this.addressBook = (await this.storageService.getAddressBookList(this.walletAddress))
+    this.addressBook = (await this.keyService.getDecryptedAddressBookList(this.encryptedEmail))
       .find((addressBook) => addressBook.address === this.toAddress);
+    ;
   }
 
   // アドレスを登録
   async registerAddress() {
     await this.registerAddressDialog.open(this.toAddress);
-    this.addressBook = (await this.storageService.getAddressBookList(this.walletAddress))
+    this.addressBook = (await this.keyService.getDecryptedAddressBookList(this.encryptedEmail))
       .find((addressBook) => addressBook.address === this.toAddress);
   }
   async back() {
@@ -106,13 +109,18 @@ export class Erc20TransferConfirmComponent implements OnInit {
       if (transactionHash) {
         // 成功時
         // 送信履歴をストレージに追加
-        await this.storageService.addTransferHistory({
+        const newHistory = {
           owner: this.walletAddress,
           dateTime: (new Date()).getTime(),
           to: this.toAddress,
           value: this.amount,
           transactionHash: transactionHash as string
-        });
+        }
+        const historyList = await this.keyService.getDecryptedTransferHistoryList(this.encryptedEmail);
+        this.keyService.setDecryptedTransferHistoryList(
+          this.encryptedEmail,
+          [...historyList, newHistory]
+        );
         // 送信後の残高を取得
         await this.erc20Service.fetch(this.walletAddress);
       } else {
