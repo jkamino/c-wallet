@@ -8,8 +8,10 @@ import { Web3Service } from '../web3/web3.service';
 })
 export class Erc20Service {
   private _erc20$: BehaviorSubject<Erc20BalanceOf> = new BehaviorSubject<Erc20BalanceOf>({balance: "0"});
-  constructor(private web3Service: Web3Service) {}
-  /** コンテンツ */
+  constructor(private web3Service: Web3Service) {
+    
+  }
+  /** ERC20トークン */
   get erc20$() {
     return this._erc20$.asObservable();
   }
@@ -21,6 +23,16 @@ export class Erc20Service {
   }
   clear() {
     this._erc20$.next({balance: "0"});
+  }
+
+  // BN変換
+  toBN(_value: number | string) {
+    return this.web3Service.toBN(_value);
+  }
+
+  // アドレスチェック
+  isAddress(_address: string) {
+    return this.web3Service.isAddress(_address);
   }
 
   /**以下web3からの取得 *ABIファイルに依存しているためmanualだと動かない可能性あり */

@@ -47,7 +47,6 @@ export class Web3Service {
   TokenManagerContract: any;
   DigitalContentContract: any;
   Erc20Contract: any;
-  BN: any;
 
   /** init Web3 */
   init() {
@@ -56,9 +55,17 @@ export class Web3Service {
       providerOption
     );
     this.web3 = new Web3(this.provider);
-    this.BN = this.web3.utils.BN;
   }
 
+  // BN変換
+  toBN(_value:number | string) {
+    return Web3.utils.toBN(_value);
+  }
+
+  // アドレスチェック
+  isAddress(_address: string) {
+    return Web3.utils.isAddress(_address);
+  }
   /**
    * change contract
    * @param tokenManagerContractAbi contract abi
