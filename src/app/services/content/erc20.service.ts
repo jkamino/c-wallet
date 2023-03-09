@@ -1,28 +1,48 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Erc20BalanceOf } from 'src/app/models/models.types';
+import { BurnRate, Erc20BalanceOf } from 'src/app/models/models.types';
 import { Web3Service } from '../web3/web3.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Erc20Service {
-  private _erc20$: BehaviorSubject<Erc20BalanceOf> = new BehaviorSubject<Erc20BalanceOf>({balance: "0"});
-  constructor(private web3Service: Web3Service) {
-    
+  private _balance$: BehaviorSubject<Erc20BalanceOf> =
+    new BehaviorSubject<Erc20BalanceOf>({ balance: '0' });
+  private _burnRate$: BehaviorSubject<BurnRate> = new BehaviorSubject<BurnRate>(
+    { burnRate: '0' }
+  );
+  constructor(private web3Service: Web3Service) {}
+
+  /** トークンバランス */
+  get balance$() {
+    return this._balance$.asObservable();
   }
-  /** ERC20トークン */
-  get erc20$() {
-    return this._erc20$.asObservable();
+  get balance() {
+    return this._balance$.getValue();
   }
-  get erc20() {
-    return this._erc20$.getValue();
+  nextBalance(balance: Erc20BalanceOf) {
+    this._balance$.next(balance);
   }
-  next(erc20: Erc20BalanceOf) {
-    this._erc20$.next(erc20);
+  clearBalance() {
+    this._balance$.next({ balance: '0' });
   }
-  clear() {
-    this._erc20$.next({balance: "0"});
+
+  /** バーンレート */
+  get burnRate$() {
+    return this._burnRate$.asObservable();
+  }
+
+  get burnRate() {
+    return this._burnRate$.getValue();
+  }
+
+  nextBurnRate(burnRate: BurnRate) {
+    this._burnRate$.next(burnRate);
+  }
+
+  clearBurnRate() {
+    this._burnRate$.next({ burnRate: '0' });
   }
 
   // BN変換
@@ -37,32 +57,56 @@ export class Erc20Service {
 
   /**以下web3からの取得 *ABIファイルに依存しているためmanualだと動かない可能性あり */
 
-    /**
-   * ERC20トークン情報を取得する
+  /**
+   * チェーンからERC20トークンの残高情報を取得し更新する
    * @param _address 検索するアドレス
    */
-    async fetch(_address: string) {
-      try {
-        const result = await this.getErc20Balance(_address);
-        if (!!result) {
-          this.next(result);
-        } else {
-          this.next({ balance: "0"});
-        }
-      } catch (e) {
-        this.clear();
-        throw e;
-      }
-    }
-  
-  
-  async getErc20Balance(
-    _address: string
-  ): Promise<Erc20BalanceOf | null> {
+  async fetchBalance(_address: string) {
     try {
-      const balance: Erc20BalanceOf =
-        await this.web3Service.balanceOf(_address);
+      const result = await this.getBalance(_address);
+      if (!!result) {
+        this.nextBalance(result);
+      } else {
+        this.clearBalance();
+      }
+    } catch (e) {
+      this.clearBalance();
+      throw e;
+    }
+  }
+
+  async getBalance(_address: string): Promise<Erc20BalanceOf | null> {
+    try {
+      const balance: Erc20BalanceOf = await this.web3Service.balanceOf(
+        _address
+      );
       return balance;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  /**
+   * チェーンからトランスバーントークンのバーンレートを取得し更新する
+   */
+  async fetchBurnRate() {
+    try {
+      const result = await this.getBurnRate();
+      if (!!result) {
+        this.nextBurnRate(result);
+      } else {
+        this.clearBurnRate();
+      }
+    } catch (e) {
+      this.clearBalance();
+      throw e;
+    }
+  }
+
+  async getBurnRate(): Promise<BurnRate | null> {
+    try {
+      const burnRate: BurnRate = await this.web3Service.getBurnRate();
+      return burnRate;
     } catch (e) {
       throw e;
     }
@@ -71,33 +115,33 @@ export class Erc20Service {
   /**
    * 桁数変換処理
    */
-  /** 
+  /**
    * 最小単位(ex. wei)から一般的単位(ex. ether)に変換する
    */
-  toBaseUnit(value: string | undefined="", digits: number = 18): string {
+  toBaseUnit(value: string | undefined = '', digits: number = 18): string {
     // TODO: digitsに合わせて桁変換できるように拡張する
-    if (value === "") {
-      return "";
+    if (value === '') {
+      return '';
     }
     try {
       return this.web3Service.web3.utils.fromWei(value, 'ether');
-    } catch(e) {
-      return "";
+    } catch (e) {
+      return '';
     }
   }
 
-  /** 
+  /**
    * 一般的単位(ex. ether)から最小単位(ex. wei)に変換する
    */
-  fromBaseUnit(value: string | undefined = "", digits: number=18) : string {
+  fromBaseUnit(value: string | undefined = '', digits: number = 18): string {
     // TODO: digitsに合わせて桁変換できるように拡張する
-    if (value === "") {
-      return "";
+    if (value === '') {
+      return '';
     }
     try {
       return this.web3Service.web3.utils.toWei(value, 'ether');
-    } catch(e) {
-      return "";
+    } catch (e) {
+      return '';
     }
   }
 }
