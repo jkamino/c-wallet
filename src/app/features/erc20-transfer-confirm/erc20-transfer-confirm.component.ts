@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AddressBook, BurnRate } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -21,8 +21,9 @@ import { RegisterAddressDialogService } from 'src/app/shared/components/register
   templateUrl: './erc20-transfer-confirm.component.html',
   styleUrls: ['./erc20-transfer-confirm.component.scss'],
 })
-export class Erc20TransferConfirmComponent implements OnInit {
+export class Erc20TransferConfirmComponent implements OnInit, OnDestroy {
   burnRate$!: Observable<BurnRate | undefined>;
+  subscription!: Subscription;
   //表示制御
   serviceName = '';
   walletAddress = '';
@@ -68,7 +69,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
     try {
       await this.erc20Service.fetchBurnRate();
       this.burnRate$ = this.erc20Service.burnRate$;
-      this.burnRate$.subscribe((rate) => {
+      this.subscription = this.burnRate$.subscribe((rate) => {
         const burn = this.calculateBurn(rate?.burnRate, this.amount);
         this.burnAmount = burn.burnAmount;
         this.receiveAmount = burn.receiveAmount;
@@ -78,6 +79,10 @@ export class Erc20TransferConfirmComponent implements OnInit {
     } finally {
       this.spinner.hide();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // アドレスを登録
