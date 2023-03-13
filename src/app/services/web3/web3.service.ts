@@ -5,7 +5,8 @@ import {
   ETHAccount,
   ObjectBalanceOf,
   OwnedObjectsOf,
-  Erc20BalanceOf
+  Erc20BalanceOf,
+  BurnRate,
 } from 'src/app/models/models.types';
 import { environment } from 'src/environments/environment';
 import Web3 from 'web3';
@@ -47,7 +48,6 @@ export class Web3Service {
   TokenManagerContract: any;
   DigitalContentContract: any;
   Erc20Contract: any;
-  BN: any;
 
   /** init Web3 */
   init() {
@@ -56,9 +56,17 @@ export class Web3Service {
       providerOption
     );
     this.web3 = new Web3(this.provider);
-    this.BN = this.web3.utils.BN;
   }
 
+  // BN変換
+  toBN(_value: number | string) {
+    return Web3.utils.toBN(_value);
+  }
+
+  // アドレスチェック
+  isAddress(_address: string) {
+    return Web3.utils.isAddress(_address);
+  }
   /**
    * change contract
    * @param tokenManagerContractAbi contract abi
@@ -75,7 +83,7 @@ export class Web3Service {
     if (!this.web3) {
       this.init();
     }
-    
+
     this.DigitalContentContract = null;
     this.TokenManagerContract = null;
     this.TokenManagerContract = new this.web3.eth.Contract(
@@ -93,17 +101,14 @@ export class Web3Service {
    * @param erc20ContractAbi contract abi
    * @param erc20ContractAddress contract address
    */
-  setErc20Contract(
-    erc20ContractAbi: any,
-    erc20ContractAddress: any
-  ) {
-    if(!this.web3) {
+  setErc20Contract(erc20ContractAbi: any, erc20ContractAddress: any) {
+    if (!this.web3) {
       this.init();
     }
     this.Erc20Contract = new this.web3.eth.Contract(
       erc20ContractAbi,
       erc20ContractAddress
-    )  
+    );
   }
   /**
    * マニュアル入力用
@@ -193,7 +198,7 @@ export class Web3Service {
     }
     return new Promise((resolve, reject) => {
       //time out error
-      setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
       this.DigitalContentContract.methods
         .getDigitalContentSpec(_specId)
         .call()
@@ -217,7 +222,7 @@ export class Web3Service {
     }
     return new Promise((resolve, reject) => {
       //time out error
-      setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
       this.DigitalContentContract.methods
         .getDigitalContentObject(_objectId)
         .call()
@@ -241,7 +246,7 @@ export class Web3Service {
     }
     return new Promise((resolve, reject) => {
       //time out error
-      setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
       this.DigitalContentContract.methods
         .objectBalanceOf(_owner)
         .call()
@@ -265,7 +270,7 @@ export class Web3Service {
     }
     return new Promise((resolve, reject) => {
       //time out error
-      setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
       this.DigitalContentContract.methods
         .ownedObjectsOf(_owner)
         .call()
@@ -278,29 +283,51 @@ export class Web3Service {
     });
   }
 
-    /**
-   * balance of ERC20 token 
+  /**
+   * balance of ERC20 token
    */
-    balanceOf(_owner: string): Promise<Erc20BalanceOf> {
-      if (!this.web3) {
-        this.init();
-      }
-      return new Promise((resolve, reject) => {
-        //time out error
-        setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
-        this.Erc20Contract.methods
-          .balanceOf(_owner)
-          .call()
-          .then((result: any) => {
-            resolve({ balance: result });
-          })
-          .catch((e: any) => {
-            reject({ error: e });
-          });
-      });
+  balanceOf(_owner: string): Promise<Erc20BalanceOf> {
+    if (!this.web3) {
+      this.init();
     }
+    return new Promise((resolve, reject) => {
+      //time out error
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
+      this.Erc20Contract.methods
+        .balanceOf(_owner)
+        .call()
+        .then((result: any) => {
+          resolve({ balance: result });
+        })
+        .catch((e: any) => {
+          reject({ error: e });
+        });
+    });
+  }
 
-      /**
+  /**
+   * get burn rate
+   */
+  getBurnRate(): Promise<BurnRate> {
+    if (!this.web3) {
+      this.init();
+    }
+    return new Promise((resolve, reject) => {
+      //time out error
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
+      this.Erc20Contract.methods
+        .burnRateOf()
+        .call()
+        .then((result: any) => {
+          resolve({ burnRate: result });
+        })
+        .catch((e: any) => {
+          reject({ error: e });
+        });
+    });
+  }
+
+  /**
    * object transfer
    * @param _address
    * @param _privateKey
@@ -317,9 +344,7 @@ export class Web3Service {
     if (!this.web3) {
       this.init();
     }
-    const txData = this.Erc20Contract.methods
-      .transfer(_to, _value)
-      .encodeABI();
+    const txData = this.Erc20Contract.methods.transfer(_to, _value).encodeABI();
     return this._sendSignedTransaction(
       _address,
       _privateKey,
@@ -327,7 +352,6 @@ export class Web3Service {
       environment.erc20TokenContractAddress
     );
   }
-
 
   //private function
   /**
@@ -346,7 +370,7 @@ export class Web3Service {
   ) {
     return new Promise(async (resolve, reject) => {
       //time out error
-      setTimeout(() => reject({error:{message:'timeOut'}}), 30000);
+      setTimeout(() => reject({ error: { message: 'timeOut' } }), 30000);
       const nonce = await this.web3.eth.getTransactionCount(_from, 'pending');
       const rawTx = {
         from: _from,
@@ -367,7 +391,7 @@ export class Web3Service {
           }
         })
         .on('error', (e: any) => {
-              reject({ error: e });
+          reject({ error: e });
         });
     });
   }

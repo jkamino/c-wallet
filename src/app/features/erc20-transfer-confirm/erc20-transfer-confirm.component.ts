@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ClipboardService } from 'ngx-clipboard';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AddressBook } from 'src/app/models/models.types';
+import { Observable, Subscription } from 'rxjs';
+import { AddressBook, BurnRate } from 'src/app/models/models.types';
 import { AppService } from 'src/app/services/app/app.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Erc20Service } from 'src/app/services/content/erc20.service';
@@ -18,9 +19,11 @@ import { RegisterAddressDialogService } from 'src/app/shared/components/register
 @Component({
   selector: 'app-mirai-transfer-confirm',
   templateUrl: './erc20-transfer-confirm.component.html',
-  styleUrls: ['./erc20-transfer-confirm.component.scss']
+  styleUrls: ['./erc20-transfer-confirm.component.scss'],
 })
-export class Erc20TransferConfirmComponent implements OnInit {
+export class Erc20TransferConfirmComponent implements OnInit, OnDestroy {
+  burnRate$!: Observable<BurnRate | undefined>;
+  subscription!: Subscription;
   //表示制御
   serviceName = '';
   walletAddress = '';
@@ -29,8 +32,10 @@ export class Erc20TransferConfirmComponent implements OnInit {
   toAddress = '';
   amount = '';
   balance = '';
+  burnAmount = '';
+  receiveAmount = '';
   isError = false;
-  addressBook : AddressBook | undefined = undefined;
+  addressBook: AddressBook | undefined = undefined;
 
   constructor(
     private router: Router,
@@ -47,34 +52,50 @@ export class Erc20TransferConfirmComponent implements OnInit {
     private keyService: KeyService,
     private _clipboardService: ClipboardService,
     private _snackBar: MatSnackBar
-  ) {
-    
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.walletAddress = (await this.storageService.getWalletAddress()) ?? '';
     this.email = await this.keyService.getDecryptEmailAddress();
-    this.encryptedEmail = await this.storageService.getEmailAddress() ?? '';
+    this.encryptedEmail = (await this.storageService.getEmailAddress()) ?? '';
     this.serviceName = await this.appService.getContractServiceName();
     this.toAddress = this.transferService.toAddress;
     this.amount = this.transferService.amount;
     this.balance = this.transferService.balance;
-    this.addressBook = (await this.keyService.getDecryptedAddressBookList(this.encryptedEmail))
-      .find((addressBook) => addressBook.address === this.toAddress);
-    ;
+    this.addressBook = (
+      await this.keyService.getDecryptedAddressBookList(this.encryptedEmail)
+    ).find((addressBook) => addressBook.address === this.toAddress);
+    this.spinner.show();
+    try {
+      await this.erc20Service.fetchBurnRate();
+      this.burnRate$ = this.erc20Service.burnRate$;
+      this.subscription = this.burnRate$.subscribe((rate) => {
+        const burn = this.calculateBurn(rate?.burnRate, this.amount);
+        this.burnAmount = burn.burnAmount;
+        this.receiveAmount = burn.receiveAmount;
+      });
+    } catch (e) {
+      this.confirmDialog.openComplete('error occured!');
+    } finally {
+      this.spinner.hide();
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // アドレスを登録
   async registerAddress() {
     await this.registerAddressDialog.open(this.toAddress);
-    this.addressBook = (await this.keyService.getDecryptedAddressBookList(this.encryptedEmail))
-      .find((addressBook) => addressBook.address === this.toAddress);
+    this.addressBook = (
+      await this.keyService.getDecryptedAddressBookList(this.encryptedEmail)
+    ).find((addressBook) => addressBook.address === this.toAddress);
   }
   async back() {
     this.router.navigate(['/mirai-transfer']);
   }
   async transfer() {
-
     const password = await this.passwordDialog.open();
 
     if (!password) {
@@ -96,8 +117,7 @@ export class Erc20TransferConfirmComponent implements OnInit {
       return;
     }
 
-
-    try{
+    try {
       this.spinner.show();
       // 転送
       const transactionHash = await this.transferService.erc20Transfer(
@@ -111,33 +131,50 @@ export class Erc20TransferConfirmComponent implements OnInit {
         // 送信履歴をストレージに追加
         const newHistory = {
           owner: this.walletAddress,
-          dateTime: (new Date()).getTime(),
+          dateTime: new Date().getTime(),
           to: this.toAddress,
           value: this.amount,
-          transactionHash: transactionHash as string
-        }
-        const historyList = await this.keyService.getDecryptedTransferHistoryList(this.encryptedEmail);
-        this.keyService.setDecryptedTransferHistoryList(
-          this.encryptedEmail,
-          [...historyList, newHistory]
-        );
+          transactionHash: transactionHash as string,
+        };
+        const historyList =
+          await this.keyService.getDecryptedTransferHistoryList(
+            this.encryptedEmail
+          );
+        this.keyService.setDecryptedTransferHistoryList(this.encryptedEmail, [
+          ...historyList,
+          newHistory,
+        ]);
         // 送信後の残高を取得
-        await this.erc20Service.fetch(this.walletAddress);
+        await this.erc20Service.fetchBalance(this.walletAddress);
       } else {
         await this.confirmDialog.openComplete('error occurred');
       }
-      await this.confirmDialog.openComplete("Transfer Completed!");
+      await this.confirmDialog.openComplete('Transfer Completed!');
       this.router.navigate(['/mirai-balance']);
-
-    }catch(e: any){
-      if(e.error?.message === 'timeOut'){
+    } catch (e: any) {
+      if (e.error?.message === 'timeOut') {
         await this.confirmDialog.openComplete('time out error occurred');
-      }else{
+      } else {
         await this.confirmDialog.openComplete('error occurred');
       }
     } finally {
       this.spinner.hide();
     }
+  }
+
+  calculateBurn(
+    burnRate: string = '50',
+    amount: string
+  ): { burnAmount: string; receiveAmount: string } {
+    const burnRateBN = this.erc20Service.toBN(burnRate);
+    const amountBN = this.erc20Service.toBN(amount);
+    const thousandBN = this.erc20Service.toBN('1000');
+    const burnAmountBN = amountBN.mul(burnRateBN).div(thousandBN);
+    const receiveAmountBN = amountBN.sub(burnAmountBN);
+    return {
+      burnAmount: burnAmountBN.toString(),
+      receiveAmount: receiveAmountBN.toString(),
+    };
   }
   async logout() {
     await this.authService.logOut();
@@ -164,5 +201,4 @@ export class Erc20TransferConfirmComponent implements OnInit {
       verticalPosition: 'bottom',
     });
   }
-
 }

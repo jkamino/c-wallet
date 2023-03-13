@@ -50,29 +50,34 @@
           <div class="text-left-inside-grid">{{(this.erc20Balance$ | async)?.balance | toBaseUnit}}</div>
         </mat-grid-tile>
       </mat-grid-list>
-      <div>
-        <mat-form-field appearance="fill">
-          <mat-label>To:</mat-label>
-          <input matInput [formControl]="toAddress" class="address-input" />
-        </mat-form-field>
-        <div style="position: relative;">
-          <mat-icon class="drop-down-icon" (click)="openAddressBook()">arrow_drop_down_circle</mat-icon>
+      <form [formGroup]="transferForm">
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>To:</mat-label>
+            <input matInput formControlName="toAddress" class="address-input" />
+            <mat-error *ngIf="transferForm.value.toAddress">Address not valid</mat-error>
+          </mat-form-field>
+            <button mat-flat-button (click)="openAddressBook()" class="drop-down-button">
+              <mat-icon class="drop-down-icon">arrow_drop_down_circle</mat-icon>
+            </button>
         </div>
-      </div>
-      <mat-form-field appearance="fill">
-      <mat-label>Amount:</mat-label>
-      <input matInput [formControl]="amount" />
-      </mat-form-field>
-      <section class="btn-container" style="width: 100%;">
-        <button
-          type="button"
-          class="primary-btn"
-          (click)="next()"
-          [disabled]="!formIsValid"
-        >
-          Next
-        </button>
-      </section>
+        <mat-form-field appearance="fill">
+          <mat-label>Amount:</mat-label>
+          <input matInput formControlName="amount" />
+          <mat-error *ngIf="transferForm.value.amount">Amount must be numric</mat-error>
+        </mat-form-field>
+        <section class="btn-container">
+          <button
+              type="button"
+              class="primary-btn"
+              (click)="next()"
+              [disabled]="!transferForm.valid"
+          >
+              Next
+          </button>
+        </section>
+      </form>
+
     </div>
     <div class="history-container">
       <h3>History:</h3>

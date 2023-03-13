@@ -64,7 +64,9 @@ export type OwnedObjectsOf = {
 export type Erc20BalanceOf = {
   balance: string;
 };
-
+export type BurnRate = {
+  burnRate: string;
+};
 /**
  * contract
  */
@@ -91,7 +93,7 @@ export type AddressBook = {
 export type EncryptedAddressBook = {
   encryptedEmail: string;
   encryptedList: string;
-}
+};
 /**
  * transfer history
  */
@@ -100,11 +102,11 @@ export type TransferHistory = {
   to: string;
   value: string;
   transactionHash: string;
-}
+};
 export type EncryptedTransferHistory = {
   encryptedEmail: string;
   encryptedList: string;
-}
+};
 /**
  * clipboard
  */

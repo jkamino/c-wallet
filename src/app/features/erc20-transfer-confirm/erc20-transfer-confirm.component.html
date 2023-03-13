@@ -1,5 +1,5 @@
 <ngx-spinner type="ball-scale-multiple" size="medium" [fullScreen]="true">
-    <p style="color: white">Processing...</p>
+  <p style="color: white">Processing...</p>
 </ngx-spinner>
 <!-- header -->
 <div class="header-wrapper">
@@ -34,52 +34,58 @@
     </div>
   </section>
   <section class="main-container">
-      <mat-grid-list cols="16" rowHeight="1:1">
-        <mat-grid-tile colspan="2">
-            To:
-        </mat-grid-tile>
-        <mat-grid-tile colspan="14">
-          <div class="text-left-inside-grid address-text"> {{toAddress}}</div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="16" rowspan="3">
-          <ng-container *ngIf="!addressBook; else showName">
-            <button
-              type="button"
-              class="rectangle-btn"
-              style="background-color: var(--sub-gray);"
-              (click)="registerAddress()"
-            >
-              New address detected<br/> Click here to add to address book.
-            </button>
-          </ng-container>
-          <ng-template #showName>
-            {{addressBook?.name}}
-          </ng-template>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="16" rowspan="2">
-        </mat-grid-tile>
-        <mat-grid-tile colspan="4" rowspan="2">
-            Amount:
-        </mat-grid-tile>
-        <mat-grid-tile colspan="12" rowspan="2">
-          <div class="text-left-inside-grid"> {{this.amount | toBaseUnit}}</div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="4" rowspan="2">
-          Balance:
-        </mat-grid-tile>
-        <mat-grid-tile colspan="12" rowspan="2">
-          <div class="text-left-inside-grid"> {{this.balance | toBaseUnit}}</div>
-        </mat-grid-tile>
-        <mat-grid-tile colspan="16" rowspan="2">
-        </mat-grid-tile>
-      </mat-grid-list>
-      <button
-        type="button"
-        class="primary-btn"
-        (click)="transfer()"
-        [disabled]="!formIsValid"
-      >
-        Transfer
-      </button>
+    <mat-grid-list cols="16" rowHeight="1:1">
+      <mat-grid-tile colspan="2"> To: </mat-grid-tile>
+      <mat-grid-tile colspan="14">
+        <div class="text-left-inside-grid address-text">{{ toAddress }}</div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="16" rowspan="3">
+        <ng-container *ngIf="!addressBook; else showName">
+          <button
+            type="button"
+            class="rectangle-btn"
+            style="background-color: var(--sub-gray)"
+            (click)="registerAddress()"
+          >
+            New address detected<br />
+            Click here to add to address book.
+          </button>
+        </ng-container>
+        <ng-template #showName>
+          {{ addressBook?.name }}
+        </ng-template>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="16" rowspan="2"> </mat-grid-tile>
+      <mat-grid-tile colspan="4" rowspan="2"> Balance: </mat-grid-tile>
+      <mat-grid-tile colspan="12" rowspan="2">
+        <div class="text-left-inside-grid">{{ this.balance | toBaseUnit }}</div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="4" rowspan="2"> Send: </mat-grid-tile>
+      <mat-grid-tile colspan="12" rowspan="2">
+        <div class="text-left-inside-grid">{{ this.amount | toBaseUnit }}</div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="4" rowspan="2"> Burn: </mat-grid-tile>
+      <mat-grid-tile colspan="12" rowspan="2">
+        <div class="text-left-inside-grid">
+          {{ this.burnAmount | toBaseUnit }}
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="4" rowspan="2"> Receive: </mat-grid-tile>
+      <mat-grid-tile colspan="12" rowspan="2">
+        <div class="text-left-inside-grid">
+          {{ this.receiveAmount | toBaseUnit }}
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile colspan="16" rowspan="2"> </mat-grid-tile>
+    </mat-grid-list>
+    <button
+      style="margin: 10px"
+      type="button"
+      class="primary-btn"
+      (click)="transfer()"
+      [disabled]="!formIsValid"
+    >
+      Transfer
+    </button>
   </section>
 </div>

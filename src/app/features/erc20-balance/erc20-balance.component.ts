@@ -17,7 +17,7 @@ import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-mirai-balance',
   templateUrl: './erc20-balance.component.html',
-  styleUrls: ['./erc20-balance.component.scss']
+  styleUrls: ['./erc20-balance.component.scss'],
 })
 export class Erc20BalanceComponent implements OnInit {
   //表示制御
@@ -25,7 +25,7 @@ export class Erc20BalanceComponent implements OnInit {
   walletAddress = '';
   email = '';
   showMore = false;
-  erc20Balance$! : Observable<Erc20BalanceOf | undefined>
+  erc20Balance$!: Observable<Erc20BalanceOf | undefined>;
   isError = false;
 
   constructor(
@@ -33,7 +33,6 @@ export class Erc20BalanceComponent implements OnInit {
     private storageService: StorageService,
     private confirmDialog: ConfirmDialogService,
     private erc20Service: Erc20Service,
-    private transferService: TransferService,
     private appService: AppService,
     private authService: AuthService,
     private spinner: NgxSpinnerService,
@@ -48,9 +47,9 @@ export class Erc20BalanceComponent implements OnInit {
     this.serviceName = await this.appService.getContractServiceName();
     this.spinner.show();
     try {
-      await this.erc20Service.fetch(this.walletAddress);
-      this.erc20Balance$ = this.erc20Service.erc20$;
-    } catch(e) {
+      await this.erc20Service.fetchBalance(this.walletAddress);
+      this.erc20Balance$ = this.erc20Service.balance$;
+    } catch (e) {
       this.confirmDialog.openComplete('error occured!');
     } finally {
       this.spinner.hide();
@@ -80,8 +79,10 @@ export class Erc20BalanceComponent implements OnInit {
 
   // 購入画面へ遷移
   async goMarket() {
-    const res = await this.confirmDialog.openConfirm('The external market will be opened in another tab. OK?');
-    if(res) {
+    const res = await this.confirmDialog.openConfirm(
+      'The external market will be opened in another tab. OK?'
+    );
+    if (res) {
       window.open(environment.erc20TokenMarketUrl);
     }
   }
@@ -90,6 +91,4 @@ export class Erc20BalanceComponent implements OnInit {
   goTransfer() {
     this.router.navigate(['/mirai-transfer']);
   }
-
-
 }
