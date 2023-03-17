@@ -58,7 +58,7 @@ export class Erc20Service {
   /**以下web3からの取得 *ABIファイルに依存しているためmanualだと動かない可能性あり */
 
   /**
-   * チェーンからERC20トークンの残高情報を取得し更新する
+   * チェーンからERC20トークンの残高情報を取得する
    * @param _address 検索するアドレス
    */
   async fetchBalance(_address: string) {
@@ -87,7 +87,7 @@ export class Erc20Service {
   }
 
   /**
-   * チェーンからトランスバーントークンのバーンレートを取得し更新する
+   * チェーンからトランスバーントークンのバーンレートを取得する
    */
   async fetchBurnRate() {
     try {
